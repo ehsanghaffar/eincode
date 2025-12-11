@@ -1,30 +1,83 @@
-# eindev.ir
+ # Code Forge
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+ A modern, minimal code editor / playground built with Next.js, React and Radix UI.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/ein-projects/v0-eindev-ir)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/ozP9PlrxkhV)
+ Version: `0.1.0`
 
-## Overview
+ **What the project does**
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+ Code Forge is a lightweight, opinionated editor UI and playground intended for experimenting with editor-like components and small developer tools. It demonstrates a modern stack including Next.js 16, React 19, TypeScript, Tailwind CSS and Radix UI primitives.
 
-## Deployment
+ **Why this is useful**
 
-Your project is live at:
+ - Fast developer playground to prototype editor UX and integrations.
+ - Collection of reusable UI components (see `components/`).
+ - Up-to-date with Next.js 16 and React 19 modern patterns (app router, server components).
 
-**[https://vercel.com/ein-projects/v0-eindev-ir](https://vercel.com/ein-projects/v0-eindev-ir)**
+ **Key features**
 
-## Build your app
+ - App shell and layout in `app/`
+ - Reusable UI primitives under `components/` (cursor glow, header, footer, workbench, etc.)
+ - Styling with Tailwind CSS and global styles in `styles/` and `app/globals.css`
+ - TypeScript-first codebase
 
-Continue building your app on:
+ **Getting started**
 
-**[https://v0.app/chat/ozP9PlrxkhV](https://v0.app/chat/ozP9PlrxkhV)**
+ Prerequisites
 
-## How It Works
+ - Node.js 18 or newer
+ - pnpm (recommended) — install from https://pnpm.io/
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+ Quick start
+
+ ```bash
+ # install dependencies
+ pnpm install
+
+ # run development server
+ pnpm dev
+ ```
+
+ Available scripts
+
+ - `pnpm dev` — runs `next dev` (development server)
+ - `pnpm build` — runs `next build` (production build)
+ - `pnpm start` — runs `next start` (serve built app)
+ - `pnpm lint` — run `eslint .`
+
+ Building for production
+
+ ```bash
+ pnpm build
+ pnpm start
+ ```
+
+ Project layout (high level)
+
+ - `app/` — Next.js App Router pages and layout
+ - `components/` — UI components and small feature pieces
+ - `lib/` — utilities and helpers
+ - `public/` — static assets
+ - `styles/` — global styles and Tailwind CSS entry
+
+ Where to get help
+
+ - Create an issue: https://github.com/ehsanghaffar/code-forge/issues
+ - For quick questions, open a discussion or file a concise issue with reproduction steps.
+
+ Who maintains this project
+
+ - Maintainer: Ehsan Ghaffar — listed as the package author.
+
+ Contributing
+
+ Contributions are welcome. Open an issue to discuss larger changes, or send a pull request with a focused, well-documented change. Keep changes small and include a description and screenshots (if UI-related).
+
+ Notes and next steps
+
+ - Consider adding a `CONTRIBUTING.md` and CI badges for build/lint status.
+ - If you want, I can add a basic `CONTRIBUTING.md` and a PR template next.
+
+ ---
+
+ If anything in this README should be adjusted (more examples, extra badges, or internal docs links), tell me which parts you want expanded and I'll update it.
