@@ -1,7 +1,17 @@
 {
-  "name": "my-v0-project",
+  "name": "code-forge",
   "version": "0.1.0",
   "private": true,
+  "description": "A modern code editor built with Next.js and Radix UI.",
+  "keywords": [
+    "nextjs",
+    "radix-ui",
+    "code editor",
+    "react",
+    "typescript",
+    "tailwindcss"
+  ],
+  "author": "Ehsan Ghaffar",
   "scripts": {
     "build": "next build",
     "dev": "next dev",

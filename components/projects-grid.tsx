@@ -141,7 +141,7 @@ export function ProjectsGrid() {
             <article
               key={project.id}
               className={cn(
-                "group relative overflow-hidden rounded border border-border/50 bg-card/50 p-5 sm:p-6 backdrop-blur-sm transition-all duration-300 active:scale-[0.99]",
+                "group relative overflow-hidden rounded border border-border bg-card/50 p-5 sm:p-6 backdrop-blur-sm transition-all duration-300 active:scale-[0.99]",
                 hoveredProject === project.id && "border-primary/50 bg-card",
                 project.featured && "sm:col-span-2 lg:col-span-1",
               )}
@@ -207,7 +207,7 @@ export function ProjectsGrid() {
                     href={project.homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-primary transition-colors"
+                    className="flex items-center gap-1.5 font-mono text-xs text-yellow-400 hover:text-primary transition-colors"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
