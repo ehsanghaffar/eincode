@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Github, Twitter, Linkedin } from "lucide-react"
+import { ThemeToggle } from "./theme-toggle"
 
 const navItems = [
   { label: "Projects", href: "#projects" },
@@ -51,6 +52,7 @@ export function Header() {
                 {item.label}
               </a>
             ))}
+            <ThemeToggle />
           </div>
 
           <div className="flex items-center gap-3">
@@ -137,6 +139,9 @@ export function Header() {
                   <link.icon className="h-4 w-4" />
                 </a>
               ))}
+              <div className="flex h-10 w-10 items-center justify-center rounded border border-border/50">
+                <ThemeToggle />
+              </div>
             </div>
 
             <div className="mt-2 flex items-center gap-2 px-3 py-2 font-mono text-xs text-muted-foreground">
