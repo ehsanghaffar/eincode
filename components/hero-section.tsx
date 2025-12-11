@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-const roles = ["building interfaces", "exploring systems", "crafting experiences", "breaking boundaries"]
+const roles = ["building interfaces", "exploring systems", "breaking barriers", "forging ideas", "crafting code"]
 
 export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0)
