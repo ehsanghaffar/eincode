@@ -6,7 +6,6 @@ import { Github, Twitter, Linkedin } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
 
 const navItems = [
-  { label: "About", href: "/about" },
   { label: "Projects", href: "#projects" },
   { label: "Notes", href: "#notes" },
   { label: "Workbench", href: "#workbench" },

@@ -65,10 +65,10 @@ export function HeroSection() {
                 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
               <a
-                href="#workbench"
+                href="/introduction"
                 className="inline-flex items-center justify-center gap-2 rounded border border-border px-6 py-3.5 sm:py-3 font-mono text-sm text-muted-foreground transition-all duration-300 hover:border-foreground hover:text-foreground active:scale-[0.98]"
               >
-                view workbench
+                learn more
               </a>
             </div>
           </div>
