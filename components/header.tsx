@@ -6,6 +6,7 @@ import { Github, Twitter, Linkedin } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
 
 const navItems = [
+  { label: "About", href: "/about" },
   { label: "Projects", href: "#projects" },
   { label: "Notes", href: "#notes" },
   { label: "Workbench", href: "#workbench" },
@@ -26,7 +27,7 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4">
         <nav className="flex items-center justify-between">
-          <a href="#" className="group flex items-center gap-2">
+          <a href="/" className="group flex items-center gap-2">
             <div className="relative flex h-8 w-8 items-center justify-center rounded border border-primary/50 bg-primary/10 font-mono text-sm text-primary transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
               <span className="glitch">{"⚡"}</span>
             </div>
