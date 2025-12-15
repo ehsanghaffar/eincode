@@ -1,38 +1,40 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { Github, Twitter, Linkedin } from "lucide-react"
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Github, Twitter, Linkedin } from "lucide-react";
+import { ThemeToggle } from "./theme-toggle";
+import Link from "next/link";
 
 const navItems = [
-  { label: "Projects", href: "#projects" },
-  { label: "Notes", href: "#notes" },
-  { label: "Workbench", href: "#workbench" },
-  { label: "Connect", href: "#connect" },
-]
+  { label: "Projects", href: "/#projects" },
+  { label: "Notes", href: "/#notes" },
+  { label: "Workbench", href: "/#workbench" },
+  { label: "Connect", href: "/#connect" },
+];
 
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/ehsanghaffar", icon: Github },
   { label: "Twitter", href: "https://twitter.com/ehsanghaffar", icon: Twitter },
   { label: "LinkedIn", href: "https://linkedin.com/in/ehsanghaffar", icon: Linkedin },
-]
+];
 
 export function Header() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4">
         <nav className="flex items-center justify-between">
-          <a href="#" className="group flex items-center gap-2">
+          <Link href="/" className="group flex items-center gap-2">
             <div className="relative flex h-8 w-8 items-center justify-center rounded border border-primary/50 bg-primary/10 font-mono text-sm text-primary transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
               <span className="glitch">{"⚡"}</span>
             </div>
             <span className="font-mono text-sm tracking-tight">
               CODE<span className="text-primary">FORGE</span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-1 md:flex">
@@ -42,15 +44,18 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "relative px-4 py-2 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors duration-200 hover:text-foreground",
-                  hoveredIndex === index && "text-foreground",
+                  hoveredIndex === index && "text-foreground"
                 )}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                {hoveredIndex === index && <span className="absolute left-1 text-primary">{">"}</span>}
+                {hoveredIndex === index && (
+                  <span className="absolute left-1 text-primary">{">"}</span>
+                )}
                 {item.label}
               </a>
             ))}
+            <ThemeToggle />
           </div>
 
           <div className="flex items-center gap-3">
@@ -88,16 +93,19 @@ export function Header() {
                 <span
                   className={cn(
                     "h-0.5 w-5 bg-foreground transition-all duration-200",
-                    isMobileMenuOpen && "translate-y-1.5 rotate-45",
+                    isMobileMenuOpen && "translate-y-1.5 rotate-45"
                   )}
-                />
-                <span
-                  className={cn("h-0.5 w-5 bg-foreground transition-all duration-200", isMobileMenuOpen && "opacity-0")}
                 />
                 <span
                   className={cn(
                     "h-0.5 w-5 bg-foreground transition-all duration-200",
-                    isMobileMenuOpen && "-translate-y-1.5 -rotate-45",
+                    isMobileMenuOpen && "opacity-0"
+                  )}
+                />
+                <span
+                  className={cn(
+                    "h-0.5 w-5 bg-foreground transition-all duration-200",
+                    isMobileMenuOpen && "-translate-y-1.5 -rotate-45"
                   )}
                 />
               </div>
@@ -108,7 +116,7 @@ export function Header() {
         <div
           className={cn(
             "overflow-hidden transition-all duration-300 md:hidden",
-            isMobileMenuOpen ? "max-h-80 pt-4" : "max-h-0",
+            isMobileMenuOpen ? "max-h-80 pt-4" : "max-h-0"
           )}
         >
           <div className="flex flex-col gap-1 border-t border-border/50 pt-4">
@@ -137,6 +145,9 @@ export function Header() {
                   <link.icon className="h-4 w-4" />
                 </a>
               ))}
+              <div className="flex h-10 w-10 items-center justify-center rounded border border-border/50">
+                <ThemeToggle />
+              </div>
             </div>
 
             <div className="mt-2 flex items-center gap-2 px-3 py-2 font-mono text-xs text-muted-foreground">
@@ -147,5 +158,5 @@ export function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }

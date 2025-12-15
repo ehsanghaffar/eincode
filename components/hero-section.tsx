@@ -1,37 +1,44 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const roles = ["building interfaces", "exploring systems", "breaking barriers", "forging ideas", "crafting code"]
+const roles = [
+  "building interfaces",
+  "exploring systems",
+  "breaking barriers",
+  "forging ideas",
+  "crafting code",
+];
 
 export function HeroSection() {
-  const [currentRole, setCurrentRole] = useState(0)
-  const [displayText, setDisplayText] = useState("")
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [currentRole, setCurrentRole] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const targetText = roles[currentRole]
+    const targetText = roles[currentRole];
     const timeout = setTimeout(
       () => {
         if (!isDeleting) {
           if (displayText.length < targetText.length) {
-            setDisplayText(targetText.slice(0, displayText.length + 1))
+            setDisplayText(targetText.slice(0, displayText.length + 1));
           } else {
-            setTimeout(() => setIsDeleting(true), 2000)
+            setTimeout(() => setIsDeleting(true), 2000);
           }
         } else {
           if (displayText.length > 0) {
-            setDisplayText(displayText.slice(0, -1))
+            setDisplayText(displayText.slice(0, -1));
           } else {
-            setIsDeleting(false)
-            setCurrentRole((prev) => (prev + 1) % roles.length)
+            setIsDeleting(false);
+            setCurrentRole((prev) => (prev + 1) % roles.length);
           }
         }
       },
-      isDeleting ? 50 : 100,
-    )
-    return () => clearTimeout(timeout)
-  }, [displayText, isDeleting, currentRole])
+      isDeleting ? 50 : 100
+    );
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentRole]);
 
   return (
     <section className="relative min-h-screen px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
@@ -51,9 +58,9 @@ export function HeroSection() {
             </div>
 
             <p className="max-w-lg text-base sm:text-lg leading-relaxed text-muted-foreground">
-              Welcome to my digital workshop — a space for experiments, prototypes, and open-source artifacts. Currently
-              building at <span className="text-foreground">Tutorify AI</span>. Here, ideas are forged, tested, and
-              refined. Not a portfolio. A laboratory.
+              Welcome to my digital workshop — a space for experiments, prototypes, and open-source
+              artifacts. Currently building at <span className="text-foreground">Tutorify AI</span>.
+              Here, ideas are forged, tested, and refined. Not a portfolio. A laboratory.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -62,14 +69,16 @@ export function HeroSection() {
                 className="group inline-flex items-center justify-center gap-2 rounded border border-primary bg-primary/10 px-6 py-3.5 sm:py-3 font-mono text-sm text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground active:scale-[0.98]"
               >
                 <span>explore artifacts</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
               </a>
-              <a
-                href="#workbench"
+              <Link
+                href="/introduction"
                 className="inline-flex items-center justify-center gap-2 rounded border border-border px-6 py-3.5 sm:py-3 font-mono text-sm text-muted-foreground transition-all duration-300 hover:border-foreground hover:text-foreground active:scale-[0.98]"
               >
-                view workbench
-              </a>
+                <span>introduction</span>
+              </Link>
             </div>
           </div>
 
@@ -127,7 +136,9 @@ export function HeroSection() {
             { label: "Since", value: "2019" },
           ].map((stat) => (
             <div key={stat.label} className="space-y-1">
-              <p className="font-mono text-xl font-bold text-foreground sm:text-3xl">{stat.value}</p>
+              <p className="font-mono text-xl font-bold text-foreground sm:text-3xl">
+                {stat.value}
+              </p>
               <p className="font-mono text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">
                 {stat.label}
               </p>
@@ -136,5 +147,5 @@ export function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
