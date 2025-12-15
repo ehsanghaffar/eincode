@@ -41,7 +41,7 @@ export function HeroSection() {
   }, [displayText, isDeleting, currentRole]);
 
   return (
-    <section className="relative min-h-screen px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
+    <section className="relative px-4 sm:px-6 pt-28 sm:pt-32 pb-12 sm:pb-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-20 lg:items-center lg:min-h-[70vh]">
           {/* Left column - Text */}
@@ -86,7 +86,7 @@ export function HeroSection() {
           <div className="relative">
             <div className="relative rounded border border-border/50 bg-card/50 p-4 sm:p-6 backdrop-blur-sm">
               <div className="absolute -top-3 left-4 bg-background px-2 font-mono text-xs text-muted-foreground">
-                terminal://codeforge
+                terminal://eincode
               </div>
               <pre className="overflow-hidden font-mono text-[10px] leading-relaxed text-primary/70 sm:text-xs md:text-sm">
                 <span className="sm:hidden">{`┌───────────────────────┐
@@ -108,7 +108,7 @@ export function HeroSection() {
 │ ██║     ██║   ██║██║  ██║██╔══╝     │
 │ ╚██████╗╚██████╔╝██████╔╝███████╗   │
 │  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝   │
-│           FORGE                     │
+│           Ein                       │
 │                                     │
 │   > experiments loaded: 12          │
 │   > status: forging                 │
@@ -122,28 +122,9 @@ export function HeroSection() {
               v0.1.0
             </div>
             <div className="absolute -bottom-2 sm:-bottom-4 -left-2 sm:-left-4 rounded border border-border bg-card px-2 sm:px-3 py-1 font-mono text-[10px] sm:text-xs text-muted-foreground">
-              EST. 2024
+              Dec. 2025
             </div>
           </div>
-        </div>
-
-        {/* Stats bar */}
-        <div className="mt-12 sm:mt-20 grid grid-cols-2 gap-4 sm:gap-6 border-t border-border/50 pt-6 sm:pt-8 sm:grid-cols-4">
-          {[
-            { label: "Public Repos", value: "95" },
-            { label: "Followers", value: "132" },
-            { label: "Following", value: "65" },
-            { label: "Since", value: "2019" },
-          ].map((stat) => (
-            <div key={stat.label} className="space-y-1">
-              <p className="font-mono text-xl font-bold text-foreground sm:text-3xl">
-                {stat.value}
-              </p>
-              <p className="font-mono text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground">
-                {stat.label}
-              </p>
-            </div>
-          ))}
         </div>
       </div>
     </section>

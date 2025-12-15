@@ -11,7 +11,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 const _spaceGrotesk = Space_Grotesk({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "CODEFORGE — Ehsan Ghaffar's Digital Laboratory",
+  title: "EINCODE — Ehsan Ghaffar's Digital Laboratory",
   description:
     "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Ehsan Ghaffar.",
   generator: "v0.app",

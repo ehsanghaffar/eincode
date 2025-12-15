@@ -100,7 +100,7 @@ export function Footer() {
           </div>
 
           <p className="font-mono text-xs text-muted-foreground text-center sm:text-right">
-            © {new Date().getFullYear()} CODEFORGE — All experiments reserved
+            © {new Date().getFullYear()} EINCODE — All experiments reserved
           </p>
         </div>
       </div>

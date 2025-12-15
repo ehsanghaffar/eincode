@@ -32,7 +32,7 @@ export function Header() {
               <span className="glitch">{"⚡"}</span>
             </div>
             <span className="font-mono text-sm tracking-tight">
-              CODE<span className="text-primary">FORGE</span>
+              EIN<span className="text-primary">CODE</span>
             </span>
           </Link>
 
