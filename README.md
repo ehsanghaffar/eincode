@@ -30,13 +30,13 @@ Prerequisites
 
 Quick start
 
-```bash
+\`\`\`bash
 # install dependencies
 pnpm install
 
 # run development server
 pnpm dev
-```
+\`\`\`
 
 Available scripts
 
@@ -47,10 +47,10 @@ Available scripts
 
 Building for production
 
-```bash
+\`\`\`bash
 pnpm build
 pnpm start
-```
+\`\`\`
 
 Project layout (high level)
 
