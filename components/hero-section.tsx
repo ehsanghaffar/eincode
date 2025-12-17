@@ -64,7 +64,7 @@ export function HeroSection() {
               <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
                 CODEFORGE — Where Code Meets Curiosity
               </p>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl text-balance">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
                 Forging digital
                 <br />
                 <span className="text-gradient typing-cursor">{displayText}</span>
