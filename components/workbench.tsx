@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
-import { Github } from "lucide-react"
+import { Github, ExternalLink } from "lucide-react"
 
 const wipItems = [
   {
@@ -41,69 +41,112 @@ const wipItems = [
 
 export function Workbench() {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+        }
+      },
+      { threshold: 0.1 },
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section id="workbench" className="px-4 sm:px-6 py-16 sm:py-20 border-t border-border/30">
+    <section ref={sectionRef} id="workbench" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-8 sm:mb-12 space-y-2">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-primary">
+        <div className={cn("mb-10 sm:mb-14 space-y-3 opacity-0", isVisible && "animate-fade-in-up")}>
+          <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
             Work in Progress
           </p>
-          <h2 className="text-2xl font-bold tracking-tight sm:text-4xl">Workbench</h2>
-          <p className="max-w-2xl text-sm sm:text-base text-muted-foreground">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">Workbench</h2>
+          <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
             Active experiments and prototypes. Things that are being built, broken, and rebuilt.
           </p>
         </div>
 
-        <div className="rounded border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden">
+        <div
+          className={cn(
+            "rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift opacity-0",
+            isVisible && "animate-scale-in stagger-2",
+          )}
+        >
           {/* Terminal header */}
-          <div className="flex items-center gap-2 border-b border-border/50 bg-secondary/30 px-3 sm:px-4 py-2.5 sm:py-3">
-            <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-destructive/50" />
-            <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-yellow-500/50" />
-            <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-primary/50" />
-            <span className="ml-2 sm:ml-4 font-mono text-[10px] sm:text-xs text-muted-foreground truncate">
-              ~/ehsanghaffar/active
-            </span>
+          <div className="flex items-center gap-3 border-b border-border/50 bg-secondary/40 px-4 sm:px-5 py-3.5 sm:py-4">
+            <div className="flex items-center gap-2">
+              <div className="h-3 w-3 rounded-full bg-destructive/60 transition-colors hover:bg-destructive cursor-pointer" />
+              <div className="h-3 w-3 rounded-full bg-yellow-500/60 transition-colors hover:bg-yellow-500 cursor-pointer" />
+              <div className="h-3 w-3 rounded-full bg-primary/60 transition-colors hover:bg-primary cursor-pointer" />
+            </div>
+            <span className="ml-4 font-mono text-xs text-muted-foreground truncate">~/ehsanghaffar/active</span>
+            <div className="ml-auto hidden sm:flex items-center gap-2 text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="font-mono text-xs">live</span>
+            </div>
           </div>
 
-          {/* WIP list */}
           <div className="divide-y divide-border/30">
-            {wipItems.map((item) => (
+            {wipItems.map((item, index) => (
               <a
                 key={item.id}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cn(
-                  "group flex flex-col gap-3 sm:gap-4 p-4 transition-all duration-200 sm:flex-row sm:items-center sm:justify-between",
-                  hoveredItem === item.id && "bg-secondary/20",
+                  "group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0",
+                  isVisible && "animate-fade-in",
+                  hoveredItem === item.id && "bg-secondary/30",
                 )}
+                style={{ animationDelay: `${index * 100 + 400}ms` }}
                 onMouseEnter={() => setHoveredItem(item.id)}
                 onMouseLeave={() => setHoveredItem(null)}
               >
-                <div className="flex-1 space-y-1 min-w-0">
-                  <div className="flex items-center gap-2 sm:gap-3">
-                    <span className="text-primary font-mono text-sm shrink-0">$</span>
-                    <h4 className="font-mono text-sm font-medium tracking-tight group-hover:text-primary transition-colors truncate">
+                <div className="flex-1 space-y-2 min-w-0">
+                  <div className="flex items-center gap-3">
+                    <span className="text-primary font-mono text-sm shrink-0 transition-transform duration-300 group-hover:translate-x-1">
+                      $
+                    </span>
+                    <h4 className="font-mono text-sm font-medium tracking-tight transition-colors group-hover:text-gradient truncate">
                       {item.name}
                     </h4>
-                    <Github className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <Github className="h-3.5 w-3.5 text-muted-foreground" />
+                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                    </div>
                   </div>
-                  <p className="pl-5 sm:pl-6 text-xs text-muted-foreground line-clamp-2 sm:line-clamp-1">
-                    {item.description}
-                  </p>
+                  <p className="pl-6 text-xs text-muted-foreground line-clamp-2 sm:line-clamp-1">{item.description}</p>
                 </div>
 
-                <div className="flex items-center justify-between gap-4 pl-5 sm:pl-0 sm:justify-end">
-                  {/* Progress bar */}
-                  <div className="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-none">
-                    <div className="h-1.5 w-full sm:w-24 overflow-hidden rounded-full bg-secondary">
+                <div className="flex items-center justify-between gap-6 pl-6 sm:pl-0 sm:justify-end">
+                  <div className="flex items-center gap-3 flex-1 sm:flex-none">
+                    <div className="h-2 w-full sm:w-28 overflow-hidden rounded-full bg-secondary/80 relative">
                       <div
-                        className="h-full rounded-full bg-primary transition-all duration-500"
+                        className={cn(
+                          "h-full rounded-full transition-all duration-700 ease-out",
+                          item.progress >= 80 ? "bg-primary" : item.progress >= 50 ? "bg-yellow-500" : "bg-orange-500",
+                        )}
                         style={{ width: `${item.progress}%` }}
                       />
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 animate-shimmer opacity-30" />
                     </div>
-                    <span className="font-mono text-xs text-muted-foreground w-10 shrink-0">{item.progress}%</span>
+                    <span
+                      className={cn(
+                        "font-mono text-xs w-10 shrink-0 transition-colors",
+                        item.progress >= 80 ? "text-primary" : "text-muted-foreground",
+                      )}
+                    >
+                      {item.progress}%
+                    </span>
                   </div>
 
                   <span className="font-mono text-xs text-muted-foreground shrink-0">{item.lastUpdated}</span>
@@ -112,11 +155,11 @@ export function Workbench() {
             ))}
           </div>
 
-          {/* Terminal footer */}
-          <div className="border-t border-border/50 bg-secondary/20 px-3 sm:px-4 py-2.5 sm:py-3">
-            <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-muted-foreground">
+          <div className="border-t border-border/50 bg-secondary/30 px-4 sm:px-5 py-4">
+            <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
               <span className="text-primary">❯</span>
               <span className="typing-cursor truncate">git status --all</span>
+              <span className="ml-auto text-primary/50 hidden sm:block">press enter to run</span>
             </div>
           </div>
         </div>
