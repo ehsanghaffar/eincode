@@ -46,7 +46,7 @@ export function Header() {
               <span className="glitch">{"⚡"}</span>
             </div>
             <span className="font-mono text-sm tracking-tight">
-              EIN<span className="text-gradient font-semibold">CODE</span>
+              EIN<span className="bg-gradient-to-l from-emerald-400 to-teal-600 text-transparent bg-clip-text  font-semibold">CODE</span>
             </span>
           </Link>
 

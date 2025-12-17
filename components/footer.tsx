@@ -43,7 +43,7 @@ export function Footer() {
               <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Connect</p>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-balance">
                 {"Let's build something "}
-                <span className="text-gradient">together</span>
+                <span className="bg-gradient-to-l from-emerald-400 to-teal-600 text-transparent bg-clip-text ">together</span>
               </h2>
             </div>
             <p className="max-w-md text-base sm:text-lg text-muted-foreground leading-relaxed">

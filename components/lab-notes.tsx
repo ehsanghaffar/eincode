@@ -78,7 +78,7 @@ export function LabNotes() {
             <article
               key={note.id}
               className={cn(
-                "group relative cursor-pointer overflow-hidden rounded-xl border border-border/50 bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.99] hover-lift opacity-0",
+                "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.99] hover-lift opacity-0",
                 isVisible && "animate-fade-in-up",
                 expandedNote === note.id && "border-primary/50 bg-card/70",
               )}

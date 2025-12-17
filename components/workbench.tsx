@@ -76,7 +76,7 @@ export function Workbench() {
 
         <div
           className={cn(
-            "rounded-xl border border-border/60 bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift opacity-0",
+            "rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift opacity-0",
             isVisible && "animate-scale-in stagger-2",
           )}
         >
