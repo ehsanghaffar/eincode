@@ -1,8 +1,8 @@
-# Code Forge
+# EinCode
 
 A modern, minimal code editor / playground built with Next.js, React and Radix UI.
 
-Version: `0.1.0`
+Version: `0.1.1`
 
 ## What the project does
 
