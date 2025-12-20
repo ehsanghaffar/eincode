@@ -16,15 +16,15 @@ export default function IntroductionPage() {
             <div className="space-y-6 sm:space-y-8">
               <div className="space-y-2">
                 <p className="font-mono text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground">
-                  Welcome to CodeForge
+                  Welcome to EinCode
                 </p>
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance">
-                  Where Code Meets <span className="text-primary">Creativity</span>
+                  Where Code Meets <span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text">Creativity</span>
                 </h1>
               </div>
 
               <p className="text-base sm:text-lg leading-relaxed text-muted-foreground max-w-3xl">
-                CodeForge is a digital workshop and portfolio platform designed for developers who believe in building
+                EinCode is a digital workshop and portfolio platform designed for developers who believe in building
                 in public. It&apos;s a space where ideas take shape, experiments unfold, and open-source projects come
                 to life.
               </p>
@@ -45,14 +45,14 @@ export default function IntroductionPage() {
 
               <div className="space-y-6 text-base sm:text-lg leading-relaxed text-muted-foreground">
                 <p>
-                  CodeForge isn&apos;t just another portfolio website—it&apos;s a living, breathing showcase of
+                  EinCode isn&apos;t just another portfolio website—it&apos;s a living, breathing showcase of
                   continuous learning and experimentation. Built by developers, for developers, it represents the
                   philosophy that the best way to learn is to build, share, and iterate.
                 </p>
 
                 <p>
                   Whether you&apos;re exploring cutting-edge AI integrations, diving into systems programming, or
-                  looking for modern web development patterns, CodeForge offers a window into real-world projects at
+                  looking for modern web development patterns, EinCode offers a window into real-world projects at
                   various stages of development—from initial experiments to production-ready solutions.
                 </p>
 
