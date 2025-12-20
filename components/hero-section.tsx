@@ -112,7 +112,7 @@ export function HeroSection() {
 
           {/* Right column - ASCII Art / Visual */}
           <div className={cn("relative opacity-0", isVisible && "animate-scale-in stagger-4")}>
-            <div className="relative rounded-xl border border-border/60 bg-card/60 glass p-5 sm:p-8 hover-lift">
+            <div className="relative rounded-xl border border-border bg-card/60 glass p-5 sm:p-8 hover-lift">
               {/* Terminal header dots */}
               <div className="absolute top-4 left-4 flex items-center gap-2">
                 <div className="h-3 w-3 rounded-full bg-destructive/60 transition-colors hover:bg-destructive" />

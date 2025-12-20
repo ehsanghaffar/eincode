@@ -51,8 +51,8 @@ const projects = [
     id: 3,
     title: "Next.js 16 Docker Starter",
     description:
-      "A batteries-included starter for building Next.js 16 apps with App Router, PNPM, Tailwind v4+, Next-Auth v5, and multi-stage Docker setup.",
-    tags: ["Next.js 16", "Docker", "Tailwind v4"],
+      "A batteries-included starter for building Next.js 16.1.0 apps with App Router, PNPM, Tailwind v4+, Next-Auth v5, and multi-stage Docker setup.",
+    tags: ["Next.js 16.1.0", "Docker", "Tailwind v4"],
     status: "in-progress",
     year: "2025",
     stars: 8,
