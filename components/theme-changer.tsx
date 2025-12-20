@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { themes, type ThemeColor } from "@/lib/themes"
 
 export function ThemeChanger() {
-  const [currentTheme, setCurrentTheme] = useState<ThemeColor>("golden")
+  const [currentTheme, setCurrentTheme] = useState<ThemeColor>("emerald")
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
