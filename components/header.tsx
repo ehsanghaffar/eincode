@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { Github, Twitter, Linkedin } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
+import { ThemeChanger } from "./theme-changer"
 import Link from "next/link"
 
 const navItems = [
@@ -46,7 +47,7 @@ export function Header() {
               <span className="glitch">{"⚡"}</span>
             </div>
             <span className="font-mono text-sm tracking-tight">
-              EIN<span className="bg-gradient-to-l from-emerald-400 to-teal-600 text-transparent bg-clip-text  font-semibold">CODE</span>
+              EIN<span className="text-gradient font-semibold">CODE</span>
             </span>
           </Link>
 
@@ -83,7 +84,8 @@ export function Header() {
                 />
               </a>
             ))}
-            <div className="ml-2">
+            <div className="ml-2 flex items-center gap-1">
+              <ThemeChanger />
               <ThemeToggle />
             </div>
           </div>
@@ -179,6 +181,9 @@ export function Header() {
                   <link.icon className="h-4 w-4" />
                 </a>
               ))}
+              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
+                <ThemeChanger />
+              </div>
               <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
                 <ThemeToggle />
               </div>
