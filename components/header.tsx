@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Github, Twitter, Linkedin } from "lucide-react"
 import { ThemeToggle } from "./theme-toggle"
@@ -8,10 +9,11 @@ import { ThemeChanger } from "./theme-changer"
 import Link from "next/link"
 
 const navItems = [
-  { label: "Projects", href: "/#projects" },
-  { label: "Notes", href: "/#notes" },
-  { label: "Workbench", href: "/#workbench" },
-  { label: "Connect", href: "/#connect" },
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  // { label: "Notes", href: "/notes" },/
+  { label: "Workbench", href: "/workbench" },
+  { label: "Blog", href: "/blog" },
 ]
 
 const socialLinks = [
@@ -24,6 +26,12 @@ export function Header() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const pathname = usePathname()
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/"
+    return pathname.startsWith(href)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,42 +55,56 @@ export function Header() {
               <span className="glitch">{"⚡"}</span>
             </div>
             <span className="font-mono text-sm tracking-tight">
-              EIN<span className="bg-gradient-to-l from-primary/50 to-accent bg-clip-text text-transparent font-semibold">CODE</span>
+              EIN
+              <span className="bg-gradient-to-l from-primary/50 to-accent bg-clip-text text-transparent font-semibold">
+                CODE
+              </span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-1 md:flex">
             {navItems.map((item, index) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "relative px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-all duration-300 hover:text-foreground rounded-lg hover:bg-secondary/50",
-                  hoveredIndex === index && "text-foreground",
+                  "relative px-4 py-2.5 font-mono text-xs uppercase tracking-widest transition-all duration-300 rounded-lg",
+                  isActive(item.href)
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
+                  hoveredIndex === index && !isActive(item.href) && "text-foreground",
                 )}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 <span
                   className={cn(
-                    "absolute left-1.5 text-primary transition-all duration-200 opacity-0 -translate-x-2",
-                    hoveredIndex === index && "opacity-100 translate-x-0",
+                    "absolute left-1.5 text-primary transition-all duration-200",
+                    isActive(item.href)
+                      ? "opacity-100 translate-x-0"
+                      : hoveredIndex === index
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 -translate-x-2",
                   )}
                 >
                   {">"}
                 </span>
-                <span className={cn("transition-transform duration-200", hoveredIndex === index && "translate-x-2")}>
+                <span
+                  className={cn(
+                    "transition-transform duration-200",
+                    (hoveredIndex === index || isActive(item.href)) && "translate-x-2",
+                  )}
+                >
                   {item.label}
                 </span>
-                {/* Animated underline */}
                 <span
                   className={cn(
                     "absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-primary rounded-full transition-all duration-300",
-                    hoveredIndex === index ? "w-6" : "w-0",
+                    isActive(item.href) ? "w-6" : hoveredIndex === index ? "w-6" : "w-0",
                   )}
                 />
-              </a>
+              </Link>
             ))}
             <div className="ml-2 flex items-center gap-1">
               <ThemeChanger />
@@ -148,15 +170,16 @@ export function Header() {
           </div>
         </nav>
 
+        {/* Mobile Menu */}
         <div
           className={cn(
-            "overflow-hidden transition-all duration-400 md:hidden",
+            " transition-all duration-400 md:hidden bg-background",
             isMobileMenuOpen ? "max-h-96 opacity-100 pt-4" : "max-h-0 opacity-0",
           )}
         >
           <div className="flex flex-col gap-1 border-t border-border/50 pt-4">
             {navItems.map((item, index) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -165,7 +188,7 @@ export function Header() {
               >
                 <span className="text-primary">{">"}</span>
                 {item.label}
-              </a>
+              </Link>
             ))}
 
             <div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
