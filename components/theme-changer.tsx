@@ -9,7 +9,7 @@ import { themes, type ThemeColor } from "@/lib/themes"
 const STORAGE_KEY = "color-theme"
 
 export function ThemeChanger() {
-  const [currentTheme, setCurrentTheme] = useState<ThemeColor>("emerald")
+  const [currentTheme, setCurrentTheme] = useState<ThemeColor>("golden")
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme, systemTheme } = useTheme()
@@ -19,7 +19,7 @@ export function ThemeChanger() {
   // Initialize theme from localStorage only once on mount
   useEffect(() => {
     if (themeInitialized.current) return
-    
+
     setMounted(true)
     // Only read from localStorage after mount to avoid hydration mismatch
     if (typeof window !== "undefined") {
@@ -54,7 +54,7 @@ export function ThemeChanger() {
     // Verify ref is still valid, and sync with localStorage as fallback
     // This ensures theme persists even if component remounts or ref gets reset
     let themeToApply = currentThemeRef.current
-    
+
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem(STORAGE_KEY) as ThemeColor
       // If localStorage has a different theme than ref, sync them
