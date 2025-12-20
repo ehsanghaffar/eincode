@@ -67,8 +67,11 @@ export function HeroSection() {
               <h1 className="text-4xl font-bold tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl text-balance">
                 Forging digital
                 <br />
-
-                <span className="bg-gradient-to-l from-emerald-400 to-teal-600 text-transparent bg-clip-text typing-cursor">{displayText}</span>
+                <span
+                  className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text typing-cursor"
+                >
+                  {displayText}
+                </span>
               </h1>
             </div>
 

@@ -6,7 +6,7 @@ import { Sun, Moon, Monitor } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -24,12 +24,27 @@ export function ThemeToggle() {
   const themes = [
     { value: "light", icon: Sun, label: "Light" },
     { value: "dark", icon: Moon, label: "Dark" },
-    // { value: "system", icon: Monitor, label: "System" },
   ];
 
-  const currentIndex = themes.findIndex((t) => t.value === theme);
-  const nextTheme = themes[(currentIndex + 1) % themes.length];
-  const CurrentIcon = themes[currentIndex]?.icon || Moon;
+  // Handle undefined theme - default to "dark" as per layout.tsx defaultTheme
+  const currentTheme = theme ?? "dark";
+  
+  // Determine which icon to show based on resolved theme (what user actually sees)
+  let CurrentIcon: typeof Sun | typeof Moon | typeof Monitor;
+  if (currentTheme === "system") {
+    CurrentIcon = Monitor;
+  } else {
+    // Use resolvedTheme for icon when available (handles system theme case)
+    const displayTheme = resolvedTheme ?? currentTheme;
+    const themeIndex = themes.findIndex((t) => t.value === displayTheme);
+    CurrentIcon = themes[themeIndex >= 0 ? themeIndex : 0]?.icon || Moon;
+  }
+  
+  // For next theme, cycle through available themes based on current theme setting
+  // If current theme is "system" or not in themes array, start from "light"
+  const themeIndex = themes.findIndex((t) => t.value === currentTheme);
+  const nextIndex = themeIndex >= 0 ? (themeIndex + 1) % themes.length : 0;
+  const nextTheme = themes[nextIndex];
 
   return (
     <button
@@ -42,7 +57,7 @@ export function ThemeToggle() {
     >
       <CurrentIcon className="size-4" />
       <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-card px-2 py-0.5 font-mono text-[10px] text-muted-foreground opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-        {theme}
+        {resolvedTheme ?? currentTheme}
       </span>
     </button>
   );

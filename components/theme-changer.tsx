@@ -1,47 +1,107 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useTheme } from "next-themes"
 import { Palette } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { themes, type ThemeColor } from "@/lib/themes"
 
+const STORAGE_KEY = "color-theme"
+
 export function ThemeChanger() {
   const [currentTheme, setCurrentTheme] = useState<ThemeColor>("emerald")
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
-  const { resolvedTheme } = useTheme()
+  const { resolvedTheme, systemTheme } = useTheme()
+  const themeInitialized = useRef(false)
+  const currentThemeRef = useRef<ThemeColor>("emerald")
 
+  // Initialize theme from localStorage only once on mount
   useEffect(() => {
+    if (themeInitialized.current) return
+    
     setMounted(true)
-    const savedTheme = localStorage.getItem("color-theme") as ThemeColor
-    if (savedTheme && themes[savedTheme]) {
-      setCurrentTheme(savedTheme)
+    // Only read from localStorage after mount to avoid hydration mismatch
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem(STORAGE_KEY) as ThemeColor
+      if (savedTheme && themes[savedTheme]) {
+        currentThemeRef.current = savedTheme
+        setCurrentTheme(savedTheme)
+      } else {
+        currentThemeRef.current = "emerald"
+        setCurrentTheme("emerald")
+      }
     }
+    themeInitialized.current = true
+
+    // Listen for storage changes (e.g., from other tabs) but don't override local changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY && e.newValue && themes[e.newValue as ThemeColor]) {
+        currentThemeRef.current = e.newValue as ThemeColor
+        setCurrentTheme(e.newValue as ThemeColor)
+      }
+    }
+    window.addEventListener("storage", handleStorageChange)
+    return () => window.removeEventListener("storage", handleStorageChange)
   }, [])
 
+  // Apply theme whenever resolvedTheme changes - always use ref to avoid state reset issues
   useEffect(() => {
     if (!mounted) return
+    // Wait for resolvedTheme to be available
+    if (resolvedTheme === undefined) return
 
-    applyTheme(currentTheme, resolvedTheme)
-  }, [mounted, currentTheme, resolvedTheme])
+    // Verify ref is still valid, and sync with localStorage as fallback
+    // This ensures theme persists even if component remounts or ref gets reset
+    let themeToApply = currentThemeRef.current
+    
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem(STORAGE_KEY) as ThemeColor
+      // If localStorage has a different theme than ref, sync them
+      // This handles edge cases where ref might get reset
+      if (storedTheme && themes[storedTheme]) {
+        if (storedTheme !== currentThemeRef.current) {
+          // Sync ref and state with localStorage value
+          currentThemeRef.current = storedTheme
+          setCurrentTheme(storedTheme)
+        }
+        themeToApply = storedTheme
+      }
+    }
+
+    // Apply theme using the verified value
+    applyTheme(themeToApply, resolvedTheme)
+  }, [mounted, resolvedTheme]) // Only depend on resolvedTheme, not currentTheme
 
   const applyTheme = (themeName: ThemeColor, mode?: string | null) => {
     const themeConfig = themes[themeName]
-    const isDark = mode === "dark"
+    // Use resolvedTheme or fallback to systemTheme, default to "light"
+    const effectiveMode = mode ?? systemTheme ?? "light"
+    const isDark = effectiveMode === "dark"
     const colors = isDark ? themeConfig.dark : themeConfig.light
 
+    // Use double requestAnimationFrame to ensure DOM is updated after dark class change
     requestAnimationFrame(() => {
-      Object.entries(colors).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(`--${key}`, value)
+      requestAnimationFrame(() => {
+        Object.entries(colors).forEach(([key, value]) => {
+          document.documentElement.style.setProperty(`--${key}`, value)
+        })
       })
     })
   }
 
   const handleThemeChange = (themeName: ThemeColor) => {
-    localStorage.setItem("color-theme", themeName)
+    // Update ref first to ensure persistence
+    currentThemeRef.current = themeName
+    // Update state for re-render
     setCurrentTheme(themeName)
-    applyTheme(themeName, resolvedTheme)
+    // Persist to localStorage
+    if (typeof window !== "undefined") {
+      localStorage.setItem(STORAGE_KEY, themeName)
+    }
+    // Apply theme immediately with current mode
+    const effectiveMode = resolvedTheme ?? systemTheme ?? "light"
+    applyTheme(themeName, effectiveMode)
     setIsOpen(false)
   }
 
