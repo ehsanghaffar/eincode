@@ -82,7 +82,7 @@ export function HeroSection() {
               )}
             >
               Welcome to my digital workshop — a space for experiments, prototypes, and open-source artifacts. Currently
-              building at <span className="text-foreground font-medium">Tutorify AI</span>. Here, ideas are forged,
+              building at <span className="text-foreground font-medium">...</span>. Here, ideas are forged,
               tested, and refined. Not a portfolio. A laboratory.
             </p>
 
