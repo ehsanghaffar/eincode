@@ -120,44 +120,19 @@ const filters = ["all", "shipped", "in-progress", "archived"]
 
 export function ProjectsGrid() {
   const [activeFilter, setActiveFilter] = useState("all")
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   const filteredProjects = activeFilter === "all" ? projects : projects.filter((p) => p.status === activeFilter)
 
   return (
-    <section ref={sectionRef} id="projects" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="projects" className="px-4 sm:px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
-          <div className={cn("space-y-3 opacity-0", isVisible && "animate-fade-in-up")}>
+          <div className="space-y-3 animate-fade-in-up">
             <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Artifacts</p>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">Open Source Projects</h2>
           </div>
 
-          <div
-            className={cn(
-              "flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide opacity-0",
-              isVisible && "animate-fade-in-up stagger-2",
-            )}
-          >
+          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide animate-fade-in-up stagger-2">
             {filters.map((filter) => (
               <button
                 key={filter}
@@ -180,17 +155,13 @@ export function ProjectsGrid() {
             <article
               key={project.id}
               className={cn(
-                "group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift opacity-0",
-                isVisible && "animate-fade-in-up",
-                hoveredProject === project.id && "border-primary/40 bg-card/70",
+                "group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift hover:border-primary/40 hover:bg-card/70 animate-fade-in-up",
                 "highlight" in project && project.highlight
                   ? "sm:col-span-2 lg:col-span-2 border-primary/30 bg-gradient-to-br from-primary/8 via-card/50 to-primary/8"
                   : "border-border/60",
                 project.featured && !("highlight" in project && project.highlight) && "sm:col-span-2 lg:col-span-1",
               )}
               style={{ animationDelay: `${(index % 6) * 100 + 200}ms` }}
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
             >
               {"highlight" in project && project.highlight && (
                 <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full border border-primary/40 bg-primary/15 px-3.5 py-1.5 animate-pulse-glow">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { ArrowRight } from "lucide-react"
 
@@ -42,30 +42,11 @@ const notes = [
 
 export function LabNotes() {
   const [expandedNote, setExpandedNote] = useState<number | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   return (
-    <section ref={sectionRef} id="notes" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
+    <section id="notes" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
       <div className="mx-auto max-w-7xl">
-        <div className={cn("mb-10 sm:mb-14 space-y-3 opacity-0", isVisible && "animate-fade-in-up")}>
+        <div className="mb-10 sm:mb-14 space-y-3 animate-fade-in-up">
           <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Field Notes</p>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">Lab Notes</h2>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
@@ -78,8 +59,7 @@ export function LabNotes() {
             <article
               key={note.id}
               className={cn(
-                "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.99] hover-lift opacity-0",
-                isVisible && "animate-fade-in-up",
+                "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.99] hover-lift animate-fade-in-up",
                 expandedNote === note.id && "border-primary/50 bg-card/70",
               )}
               style={{ animationDelay: `${index * 100 + 200}ms` }}

@@ -1,6 +1,3 @@
-"use client"
-
-import { useState, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { Github, ExternalLink } from "lucide-react"
 
@@ -40,31 +37,10 @@ const wipItems = [
 ]
 
 export function Workbench() {
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="workbench" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
+    <section id="workbench" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-border/30">
       <div className="mx-auto max-w-7xl">
-        <div className={cn("mb-10 sm:mb-14 space-y-3 opacity-0", isVisible && "animate-fade-in-up")}>
+        <div className="mb-10 sm:mb-14 space-y-3 animate-fade-in-up">
           <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
             Work in Progress
           </p>
@@ -74,12 +50,7 @@ export function Workbench() {
           </p>
         </div>
 
-        <div
-          className={cn(
-            "rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift opacity-0",
-            isVisible && "animate-scale-in stagger-2",
-          )}
-        >
+        <div className="rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift animate-scale-in stagger-2">
           {/* Terminal header */}
           <div className="flex items-center gap-3 border-b border-border/50 bg-secondary/40 px-4 sm:px-5 py-3.5 sm:py-4">
             <div className="flex items-center gap-2">
@@ -101,14 +72,8 @@ export function Workbench() {
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  "group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0",
-                  isVisible && "animate-fade-in",
-                  hoveredItem === item.id && "bg-secondary/30",
-                )}
+                className="group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between hover:bg-secondary/30 animate-fade-in"
                 style={{ animationDelay: `${index * 100 + 400}ms` }}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
               >
                 <div className="flex-1 space-y-2 min-w-0">
                   <div className="flex items-center gap-3">

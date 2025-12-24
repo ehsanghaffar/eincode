@@ -1,7 +1,3 @@
-"use client"
-
-import { useState, useEffect, useRef } from "react"
-import { cn } from "@/lib/utils"
 import { Github, Twitter, Linkedin, Mail, ExternalLink, Heart } from "lucide-react"
 
 const socialLinks = [
@@ -12,33 +8,12 @@ const socialLinks = [
 ]
 
 export function Footer() {
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <footer ref={sectionRef} id="connect" className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28">
+    <footer id="connect" className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 sm:gap-16 lg:grid-cols-2">
           {/* Left column */}
-          <div className={cn("space-y-6 sm:space-y-8 opacity-0", isVisible && "animate-fade-in-up")}>
+          <div className="space-y-6 sm:space-y-8 animate-fade-in-up">
             <div className="space-y-3">
               <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Connect</p>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-balance">
@@ -64,7 +39,7 @@ export function Footer() {
           </div>
 
           {/* Right column - Links */}
-          <div className={cn("space-y-6 lg:text-right opacity-0", isVisible && "animate-fade-in-up stagger-2")}>
+          <div className="space-y-6 lg:text-right animate-fade-in-up stagger-2">
             <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-muted-foreground">
               Find me elsewhere
             </p>
@@ -75,14 +50,8 @@ export function Footer() {
                   href={link.href}
                   target={link.label !== "Email" ? "_blank" : undefined}
                   rel={link.label !== "Email" ? "noopener noreferrer" : undefined}
-                  className={cn(
-                    "group flex items-center justify-between gap-4 rounded-xl border border-transparent p-4 transition-all duration-300 lg:flex-row-reverse active:bg-secondary/30 opacity-0",
-                    isVisible && "animate-fade-in",
-                    hoveredLink === link.label && "border-border/50 bg-card/50 glass",
-                  )}
+                  className="group flex items-center justify-between gap-4 rounded-xl border border-transparent p-4 transition-all duration-300 lg:flex-row-reverse active:bg-secondary/30 hover:border-border/50 hover:bg-card/50 glass animate-fade-in"
                   style={{ animationDelay: `${index * 100 + 400}ms` }}
-                  onMouseEnter={() => setHoveredLink(link.label)}
-                  onMouseLeave={() => setHoveredLink(null)}
                 >
                   <div className="flex items-center gap-3 lg:flex-row-reverse">
                     <link.icon className="h-5 w-5 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:scale-110" />
@@ -100,12 +69,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div
-          className={cn(
-            "mt-16 sm:mt-20 flex flex-col items-center justify-between gap-6 border-t border-border/30 pt-8 sm:pt-10 sm:flex-row opacity-0",
-            isVisible && "animate-fade-in stagger-4",
-          )}
-        >
+        <div className="mt-16 sm:mt-20 flex flex-col items-center justify-between gap-6 border-t border-border/30 pt-8 sm:pt-10 sm:flex-row animate-fade-in stagger-4">
           <div className="flex items-center gap-2.5 font-mono text-xs text-muted-foreground">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />

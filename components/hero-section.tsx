@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState, useRef } from "react"
-import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 const roles = ["building interfaces", "exploring systems", "breaking barriers", "forging ideas", "crafting code"]
 
@@ -10,25 +9,6 @@ export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0)
   const [displayText, setDisplayText] = useState("")
   const [isDeleting, setIsDeleting] = useState(false)
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
 
   useEffect(() => {
     const targetText = roles[currentRole]
@@ -55,12 +35,12 @@ export function HeroSection() {
   }, [displayText, isDeleting, currentRole])
 
   return (
-    <section ref={sectionRef} className="relative px-4 sm:px-6 pt-28 sm:pt-36 pb-16 sm:pb-24">
+    <section className="relative px-4 sm:px-6 pt-28 sm:pt-36 pb-16 sm:pb-24">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-20 lg:items-center lg:min-h-[70vh]">
           {/* Left column - Text */}
           <div className="space-y-8 sm:space-y-10">
-            <div className={cn("space-y-3 opacity-0", isVisible && "animate-fade-in-up")}>
+            <div className="space-y-3 animate-fade-in-up">
               <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
                 EinCode — Where Code Meets Curiosity
               </p>
@@ -75,20 +55,13 @@ export function HeroSection() {
               </h1>
             </div>
 
-            <p
-              className={cn(
-                "max-w-lg text-base sm:text-lg leading-relaxed text-muted-foreground opacity-0",
-                isVisible && "animate-fade-in-up stagger-2",
-              )}
-            >
+            <p className="max-w-lg text-base sm:text-lg leading-relaxed text-muted-foreground animate-fade-in-up stagger-2">
               Welcome to my digital workshop — a space for experiments, prototypes, and open-source artifacts. Currently
               building at <span className="text-foreground font-medium">...</span>. Here, ideas are forged,
               tested, and refined. Not a portfolio. A laboratory.
             </p>
 
-            <div
-              className={cn("flex flex-col sm:flex-row gap-4 opacity-0", isVisible && "animate-fade-in-up stagger-3")}
-            >
+            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-3">
               <a
                 href="#projects"
                 className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-lg border border-primary bg-primary/10 px-7 py-4 sm:py-3.5 font-mono text-sm text-primary transition-all duration-500 hover:bg-primary hover:text-primary-foreground active:scale-[0.98]"
@@ -111,7 +84,7 @@ export function HeroSection() {
           </div>
 
           {/* Right column - ASCII Art / Visual */}
-          <div className={cn("relative opacity-0", isVisible && "animate-scale-in stagger-4")}>
+          <div className="relative animate-scale-in stagger-4">
             <div className="relative rounded-xl border border-border bg-card/60 glass p-5 sm:p-8 hover-lift">
               {/* Terminal header dots */}
               <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -171,12 +144,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div
-        className={cn(
-          "absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 hidden lg:flex flex-col items-center gap-2",
-          isVisible && "animate-fade-in stagger-6",
-        )}
-      >
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 animate-fade-in stagger-6">
         <span className="font-mono text-xs text-muted-foreground">scroll</span>
         <div className="w-px h-12 bg-gradient-to-b from-primary/50 to-transparent animate-pulse" />
       </div>
