@@ -1,0 +1,65 @@
+'use client'
+
+import { useEffect } from 'react'
+import Link from 'next/link'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error('Error:', error)
+  }, [error])
+
+  return (
+    <div className="container mx-auto px-4 py-16">
+      <div className="mx-auto max-w-2xl text-center">
+        <div className="mb-8">
+          <div className="mx-auto h-24 w-24 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
+            <svg
+              className="h-12 w-12 text-destructive"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-3xl font-bold mb-4">Something went wrong!</h2>
+          <p className="text-muted-foreground text-lg mb-2">
+            An unexpected error occurred while loading this page.
+          </p>
+          {error.message && (
+            <p className="text-sm text-muted-foreground font-mono bg-muted px-4 py-2 rounded mt-4">
+              {error.message}
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            onClick={reset}
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
+          >
+            Try again
+          </button>
+          <Link
+            href="/"
+            className="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/80 transition-colors"
+          >
+            Go home
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
