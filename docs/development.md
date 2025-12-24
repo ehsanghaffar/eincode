@@ -11,7 +11,7 @@
 
 ### Initial Setup
 
-```bash
+\`\`\`bash
 # Clone repository
 git clone https://github.com/ehsanghaffar/code-forge.git
 cd eincode
@@ -24,12 +24,12 @@ pnpm dev
 
 # Open browser
 open http://localhost:3000
-```
+\`\`\`
 
 ## Available Commands
 
 ### Development
-```bash
+\`\`\`bash
 # Start dev server (default port: 3000)
 pnpm dev
 
@@ -38,10 +38,10 @@ pnpm dev -- -p 3001
 
 # Start with turbo mode (faster HMR)
 pnpm dev --turbo
-```
+\`\`\`
 
 ### Build & Production
-```bash
+\`\`\`bash
 # Create production build
 pnpm build
 
@@ -50,10 +50,10 @@ pnpm build && pnpm start
 
 # Analyze bundle size
 ANALYZE=true pnpm build
-```
+\`\`\`
 
 ### Code Quality
-```bash
+\`\`\`bash
 # Run ESLint
 pnpm lint
 
@@ -62,18 +62,18 @@ pnpm lint --fix
 
 # Type check (when ignoreBuildErrors is removed)
 pnpm tsc --noEmit
-```
+\`\`\`
 
 ### Experimental
-```bash
+\`\`\`bash
 # Analyze Next.js app
 pnpm analyze
-```
+\`\`\`
 
 ## Project Structure Deep Dive
 
 ### App Router (`app/`)
-```
+\`\`\`
 app/
 ├── layout.tsx              # Root layout (fonts, metadata, providers)
 ├── page.tsx                # Homepage (/)
@@ -90,10 +90,10 @@ app/
     │   └── page.tsx        # /workbench
     └── notes/
         └── page.tsx        # /notes (currently commented out)
-```
+\`\`\`
 
 ### Components Organization
-```
+\`\`\`
 components/
 ├── header.tsx              # Main navigation (client component)
 ├── footer.tsx              # Footer with links (client component)
@@ -116,29 +116,29 @@ components/
     ├── avatar.tsx
     ├── button.tsx
     └── input.tsx
-```
+\`\`\`
 
 ### Library Files (`lib/`)
-```
+\`\`\`
 lib/
 ├── utils.ts                # cn() helper, other utilities
 ├── themes.ts               # Theme configurations
 └── blog-data.tsx           # Blog posts data (source of truth)
-```
+\`\`\`
 
 ## Development Patterns
 
 ### Adding a New Page
 
 1. **Create the route file**:
-```bash
+\`\`\`bash
 # For /about page
 mkdir -p app/(public)/about
 touch app/(public)/about/page.tsx
-```
+\`\`\`
 
 2. **Create the page component**:
-```tsx
+\`\`\`tsx
 // app/(public)/about/page.tsx
 import type { Metadata } from 'next'
 
@@ -155,10 +155,10 @@ export default function AboutPage() {
     </div>
   )
 }
-```
+\`\`\`
 
 3. **Add to navigation** (if needed):
-```tsx
+\`\`\`tsx
 // components/header.tsx
 const navItems = [
   { label: "Home", href: "/" },
@@ -166,7 +166,7 @@ const navItems = [
   { label: "Projects", href: "/projects" },
   // ...
 ]
-```
+\`\`\`
 
 ### Adding a New Component
 
@@ -175,30 +175,30 @@ const navItems = [
    - **Client**: Interactive, uses hooks, browser APIs
 
 2. **Create component file**:
-```tsx
+\`\`\`tsx
 // components/my-component.tsx
 // Only add "use client" if necessary
 export function MyComponent({ title }: { title: string }) {
   return <div>{title}</div>
 }
-```
+\`\`\`
 
 3. **Import and use**:
-```tsx
+\`\`\`tsx
 import { MyComponent } from '@/components/my-component'
 
 <MyComponent title="Hello" />
-```
+\`\`\`
 
 ### Adding a Blog Post
 
 1. **Open blog data file**:
-```bash
+\`\`\`bash
 code lib/blog-data.tsx
-```
+\`\`\`
 
 2. **Add new post object**:
-```tsx
+\`\`\`tsx
 export const blogPosts: BlogPost[] = [
   // ... existing posts
   {
@@ -229,21 +229,21 @@ const hello = "world"
     color: "from-blue-500/20 to-purple-500/20",
   },
 ]
-```
+\`\`\`
 
 3. **View at**: `http://localhost:3000/blog/my-new-post`
 
 ### Styling Components
 
 #### Using Tailwind Utilities
-```tsx
+\`\`\`tsx
 <div className="bg-background text-foreground rounded-lg p-4">
   Content
 </div>
-```
+\`\`\`
 
 #### Composing Classes with cn()
-```tsx
+\`\`\`tsx
 import { cn } from '@/lib/utils'
 
 <div className={cn(
@@ -253,10 +253,10 @@ import { cn } from '@/lib/utils'
 )}>
   Content
 </div>
-```
+\`\`\`
 
 #### Using Theme Colors
-```tsx
+\`\`\`tsx
 // Available theme colors:
 // bg-background, bg-foreground
 // bg-card, bg-popover
@@ -267,10 +267,10 @@ import { cn } from '@/lib/utils'
 <button className="bg-primary text-primary-foreground">
   Button
 </button>
-```
+\`\`\`
 
 #### Adding Custom Animations
-```css
+\`\`\`css
 /* app/globals.css */
 @keyframes my-animation {
   from { opacity: 0; }
@@ -280,12 +280,12 @@ import { cn } from '@/lib/utils'
 .my-animated-class {
   animation: my-animation 0.3s ease-out;
 }
-```
+\`\`\`
 
 ### Theme Development
 
 #### Adding a New Theme Color
-```tsx
+\`\`\`tsx
 // lib/themes.ts
 export const themes = [
   // ... existing themes
@@ -304,13 +304,13 @@ export const themes = [
     },
   },
 ]
-```
+\`\`\`
 
 ## Development Tools & Extensions
 
 ### Recommended VS Code Extensions
 
-```json
+\`\`\`json
 // .vscode/extensions.json (create this file)
 {
   "recommendations": [
@@ -322,11 +322,11 @@ export const themes = [
     "unifiedjs.vscode-mdx"
   ]
 }
-```
+\`\`\`
 
 ### VS Code Settings
 
-```json
+\`\`\`json
 // .vscode/settings.json (create this file)
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -338,23 +338,23 @@ export const themes = [
     ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ]
 }
-```
+\`\`\`
 
 ## Debugging
 
 ### Next.js Debug Mode
-```bash
+\`\`\`bash
 # Start with debug logging
 NODE_OPTIONS='--inspect' pnpm dev
-```
+\`\`\`
 
 Then open Chrome DevTools:
-```
+\`\`\`
 chrome://inspect
-```
+\`\`\`
 
 ### Console Logging
-```tsx
+\`\`\`tsx
 // Server Component (logs in terminal)
 export default async function ServerPage() {
   console.log('This logs in terminal')
@@ -367,7 +367,7 @@ export function ClientComponent() {
   console.log('This logs in browser DevTools')
   return <div>Content</div>
 }
-```
+\`\`\`
 
 ### React DevTools
 Install browser extension: [React DevTools](https://react.dev/learn/react-developer-tools)
@@ -378,13 +378,13 @@ Install browser extension: [React DevTools](https://react.dev/learn/react-develo
 **Cause**: Import path incorrect or missing `@/` alias
 
 **Solution**:
-```tsx
+\`\`\`tsx
 // ❌ Wrong
 import { Header } from 'components/header'
 
 // ✅ Correct
 import { Header } from '@/components/header'
-```
+\`\`\`
 
 ### Issue: "Hydration Error"
 **Cause**: Server HTML doesn't match client HTML
@@ -395,7 +395,7 @@ import { Header } from '@/components/header'
 - Using browser APIs in Server Components
 
 **Solution**:
-```tsx
+\`\`\`tsx
 // ❌ Causes hydration error
 export default function Page() {
   const timestamp = Date.now()  // Different on server vs client
@@ -415,13 +415,13 @@ export default function Page() {
   
   return <div>{timestamp ?? 'Loading...'}</div>
 }
-```
+\`\`\`
 
 ### Issue: "Cannot read property of undefined"
 **Cause**: Data not loaded yet or prop missing
 
 **Solution**: Add proper checks
-```tsx
+\`\`\`tsx
 // ❌ Crashes if post is undefined
 <h1>{post.title}</h1>
 
@@ -431,7 +431,7 @@ export default function Page() {
 // ✅ Better - early return
 if (!post) return <div>Loading...</div>
 return <h1>{post.title}</h1>
-```
+\`\`\`
 
 ### Issue: Styles not applying
 **Causes**:
@@ -440,7 +440,7 @@ return <h1>{post.title}</h1>
 3. CSS specificity issue
 
 **Solutions**:
-```tsx
+\`\`\`tsx
 // 1. Check spelling
 <div className="backgrund-primary">  // ❌ typo
 <div className="bg-primary">        // ✅ correct
@@ -453,7 +453,7 @@ return <h1>{post.title}</h1>
 
 // 3. Use !important if needed (last resort)
 <div className="!bg-primary">
-```
+\`\`\`
 
 ## Testing (To Be Added)
 
@@ -465,7 +465,7 @@ Currently no tests. Future additions:
 
 ## Git Workflow
 
-```bash
+\`\`\`bash
 # Create feature branch
 git checkout -b feature/my-feature
 
@@ -477,10 +477,10 @@ git commit -m "feat: add new feature"
 git push origin feature/my-feature
 
 # Create PR on GitHub
-```
+\`\`\`
 
 ### Commit Message Convention
-```
+\`\`\`
 feat: new feature
 fix: bug fix
 docs: documentation
@@ -489,7 +489,7 @@ refactor: code refactoring
 perf: performance improvement
 test: adding tests
 chore: maintenance
-```
+\`\`\`
 
 ## Performance Tips During Development
 

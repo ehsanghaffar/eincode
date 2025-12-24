@@ -13,11 +13,11 @@
   ],
   "author": "Ehsan Ghaffar",
   "scripts": {
+    "analyze": "next experimental-analyze",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "next start",
-    "analyze": "next experimental-analyze"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

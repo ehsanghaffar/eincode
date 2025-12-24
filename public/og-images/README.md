@@ -33,7 +33,7 @@ Each blog post should have an OG image named after its slug:
 4. Export as PNG
 
 ### Option 2: Using Next.js Dynamic OG Images
-```typescript
+\`\`\`typescript
 // app/api/og/route.tsx
 import { ImageResponse } from 'next/og'
 
@@ -60,7 +60,7 @@ export async function GET(request: Request) {
     }
   )
 }
-```
+\`\`\`
 
 ### Option 3: Using Online Tools
 - [Vercel OG Image Playground](https://og-playground.vercel.app/)

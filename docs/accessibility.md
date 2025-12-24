@@ -11,17 +11,17 @@ Current Status: **Partial Compliance** ⚠️
 ### 1. Missing ARIA Labels
 
 #### Theme Changer (High Priority)
-```tsx
+\`\`\`tsx
 // ❌ components/theme-changer.tsx
 <button onClick={() => setIsOpen(!isOpen)}>
   <Palette className="size-4" />
 </button>
-```
+\`\`\`
 
 **Issue**: No accessible name for screen readers
 
 **Fix**:
-```tsx
+\`\`\`tsx
 // ✅ Fixed
 <button
   onClick={() => setIsOpen(!isOpen)}
@@ -31,18 +31,18 @@ Current Status: **Partial Compliance** ⚠️
 >
   <Palette className="size-4" />
 </button>
-```
+\`\`\`
 
 #### Social Links in Footer
-```tsx
+\`\`\`tsx
 // ❌ components/footer.tsx
 <a href={link.href} target="_blank" rel="noopener noreferrer">
   <link.icon className="h-5 w-5" />
 </a>
-```
+\`\`\`
 
 **Fix**:
-```tsx
+\`\`\`tsx
 // ✅ Fixed
 <a
   href={link.href}
@@ -52,12 +52,12 @@ Current Status: **Partial Compliance** ⚠️
 >
   <link.icon className="h-5 w-5" />
 </a>
-```
+\`\`\`
 
 ### 2. Keyboard Navigation
 
 #### Mobile Menu (High Priority)
-```tsx
+\`\`\`tsx
 // ❌ components/header.tsx
 <div className={cn(
   "transition-all duration-400 md:hidden",
@@ -65,7 +65,7 @@ Current Status: **Partial Compliance** ⚠️
 )}>
   {/* Menu items */}
 </div>
-```
+\`\`\`
 
 **Issues**:
 - Not keyboard accessible
@@ -74,7 +74,7 @@ Current Status: **Partial Compliance** ⚠️
 - Focus not returned after close
 
 **Fix**:
-```tsx
+\`\`\`tsx
 // ✅ Fixed with proper focus management
 'use client'
 import { useEffect, useRef } from 'react'
@@ -142,7 +142,7 @@ export function MobileMenu({ isOpen, onClose }) {
     </div>
   )
 }
-```
+\`\`\`
 
 #### Theme Dropdown
 **Issues**:
@@ -152,7 +152,7 @@ export function MobileMenu({ isOpen, onClose }) {
 - Focus not visible
 
 **Fix**: Use Radix UI Dropdown Menu (already installed):
-```tsx
+\`\`\`tsx
 // ✅ Fixed with Radix UI
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 
@@ -188,22 +188,22 @@ export function ThemeChanger() {
     </DropdownMenu.Root>
   )
 }
-```
+\`\`\`
 
 ### 3. Color Contrast
 
 Run contrast checker on all theme colors:
 
-```bash
+\`\`\`bash
 # Install contrast checker
 npm install -g accessibility-checker
 
 # Check colors
 npx wcag-color-contrast-checker
-```
+\`\`\`
 
 **Colors to check**:
-```css
+\`\`\`css
 /* app/globals.css */
 :root {
   --foreground: oklch(0.12 0.015 260);     /* Dark gray on light */
@@ -216,7 +216,7 @@ npx wcag-color-contrast-checker
   --muted-foreground: oklch(0.58 0 0);     /* Light gray */
   --primary: oklch(0.72 0.2 170);          /* Bright teal */
 }
-```
+\`\`\`
 
 **WCAG AA Requirements**:
 - Normal text: **4.5:1** minimum contrast ratio
@@ -232,7 +232,7 @@ npx wcag-color-contrast-checker
 #### Current Status: Mostly Good ✅
 
 Good examples:
-```tsx
+\`\`\`tsx
 // ✅ Good: Semantic nav
 <nav className="...">
   <Link href="/">Home</Link>
@@ -248,10 +248,10 @@ Good examples:
   <h1>{post.title}</h1>
   <p>{post.content}</p>
 </article>
-```
+\`\`\`
 
 **Minor improvements needed**:
-```tsx
+\`\`\`tsx
 // ⚠️ Could be better
 <div className="hero">  // Should be <section>
   
@@ -260,14 +260,14 @@ Good examples:
 
 // ⚠️ Missing heading hierarchy
 <h3>Title</h3>  // If there's no h1 or h2 before this
-```
+\`\`\`
 
 ### 5. Focus Indicators
 
 **Current**: Default browser focus
 
 **Improvement**: Custom focus styles
-```css
+\`\`\`css
 /* app/globals.css */
 @layer base {
   *:focus-visible {
@@ -279,14 +279,14 @@ Good examples:
     outline: none;
   }
 }
-```
+\`\`\`
 
 ### 6. Skip Links
 
 **Missing**: Skip to main content link
 
 **Add**:
-```tsx
+\`\`\`tsx
 // app/layout.tsx
 <body>
   <a
@@ -305,14 +305,14 @@ Good examples:
 <main id="main-content">
   {children}
 </main>
-```
+\`\`\`
 
 ### 7. Screen Reader Announcements
 
 **Missing**: Live region for dynamic content
 
 **Add**:
-```tsx
+\`\`\`tsx
 // components/screen-reader-announcer.tsx
 'use client'
 
@@ -343,20 +343,20 @@ export function ScreenReaderAnnouncer() {
     </div>
   )
 }
-```
+\`\`\`
 
 ## Accessibility Testing Checklist
 
 ### Automated Testing
 
-```bash
+\`\`\`bash
 # Install axe DevTools
 # Chrome/Firefox extension
 # https://www.deque.com/axe/devtools/
 
 # Or use axe-core CLI
 npx @axe-core/cli http://localhost:3000
-```
+\`\`\`
 
 ### Manual Testing
 
@@ -393,7 +393,7 @@ npx @axe-core/cli http://localhost:3000
 ## ARIA Patterns to Implement
 
 ### Navigation Menu
-```tsx
+\`\`\`tsx
 <nav aria-label="Main navigation">
   <ul role="menubar">
     <li role="none">
@@ -401,10 +401,10 @@ npx @axe-core/cli http://localhost:3000
     </li>
   </ul>
 </nav>
-```
+\`\`\`
 
 ### Dropdown Menu
-```tsx
+\`\`\`tsx
 <div>
   <button
     aria-haspopup="true"
@@ -422,10 +422,10 @@ npx @axe-core/cli http://localhost:3000
     <li role="menuitem">Item</li>
   </ul>
 </div>
-```
+\`\`\`
 
 ### Loading States
-```tsx
+\`\`\`tsx
 <div
   role="status"
   aria-live="polite"
@@ -433,7 +433,7 @@ npx @axe-core/cli http://localhost:3000
 >
   {isLoading ? 'Loading...' : 'Content loaded'}
 </div>
-```
+\`\`\`
 
 ## Accessibility Resources
 

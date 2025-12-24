@@ -10,12 +10,12 @@
 ### Initial Setup
 
 1. **Push to GitHub**:
-```bash
+\`\`\`bash
 git add .
 git commit -m "Initial commit"
 git remote add origin https://github.com/yourusername/eincode.git
 git push -u origin main
-```
+\`\`\`
 
 2. **Connect to Vercel**:
    - Go to [vercel.com](https://vercel.com)
@@ -37,13 +37,13 @@ git push -u origin main
 
 If you add environment variables later:
 
-```env
+\`\`\`env
 # .env.local (local development)
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_GITHUB_URL=https://github.com/ehsanghaffar
 NEXT_PUBLIC_TWITTER_URL=https://twitter.com/ehsanghaffar
 NEXT_PUBLIC_LINKEDIN_URL=https://linkedin.com/in/ehsanghaffar
-```
+\`\`\`
 
 Add to Vercel:
 1. Go to project settings
@@ -69,26 +69,26 @@ Add to Vercel:
 
 Every push to `main` triggers a new deployment:
 
-```bash
+\`\`\`bash
 git add .
 git commit -m "Update content"
 git push
 # Vercel automatically deploys ✨
-```
+\`\`\`
 
 Preview deployments for branches:
-```bash
+\`\`\`bash
 git checkout -b feature/new-page
 git push origin feature/new-page
 # Vercel creates preview URL
-```
+\`\`\`
 
 ## Self-Hosting (Advanced)
 
 ### Docker Deployment
 
 1. **Create Dockerfile**:
-```dockerfile
+\`\`\`dockerfile
 # Dockerfile
 FROM node:18-alpine AS base
 
@@ -137,24 +137,24 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
-```
+\`\`\`
 
 2. **Update next.config.mjs**:
-```javascript
+\`\`\`javascript
 const nextConfig = {
   output: 'standalone',  // Add this for Docker
   // ... rest of config
 }
-```
+\`\`\`
 
 3. **Build and run**:
-```bash
+\`\`\`bash
 # Build image
 docker build -t eincode .
 
 # Run container
 docker run -p 3000:3000 eincode
-```
+\`\`\`
 
 ### VPS Deployment (DigitalOcean, AWS, etc.)
 
@@ -166,7 +166,7 @@ docker run -p 3000:3000 eincode
 #### Setup
 
 1. **Install Node.js & pnpm**:
-```bash
+\`\`\`bash
 # SSH into server
 ssh user@your-server-ip
 
@@ -180,23 +180,23 @@ curl -fsSL https://get.pnpm.io/install.sh | sh -
 # Verify
 node --version
 pnpm --version
-```
+\`\`\`
 
 2. **Clone repository**:
-```bash
+\`\`\`bash
 cd /var/www
 sudo git clone https://github.com/yourusername/eincode.git
 cd eincode
-```
+\`\`\`
 
 3. **Install dependencies & build**:
-```bash
+\`\`\`bash
 pnpm install
 pnpm build
-```
+\`\`\`
 
 4. **Setup PM2 (process manager)**:
-```bash
+\`\`\`bash
 # Install PM2
 sudo npm install -g pm2
 
@@ -208,18 +208,18 @@ pm2 save
 
 # Setup startup script
 pm2 startup
-```
+\`\`\`
 
 5. **Setup Nginx reverse proxy**:
-```bash
+\`\`\`bash
 # Install Nginx
 sudo apt install nginx
 
 # Create config
 sudo nano /etc/nginx/sites-available/eincode
-```
+\`\`\`
 
-```nginx
+\`\`\`nginx
 server {
     listen 80;
     server_name your-domain.com www.your-domain.com;
@@ -233,9 +233,9 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 }
-```
+\`\`\`
 
-```bash
+\`\`\`bash
 # Enable site
 sudo ln -s /etc/nginx/sites-available/eincode /etc/nginx/sites-enabled/
 
@@ -244,10 +244,10 @@ sudo nginx -t
 
 # Restart Nginx
 sudo systemctl restart nginx
-```
+\`\`\`
 
 6. **Setup SSL with Let's Encrypt**:
-```bash
+\`\`\`bash
 # Install Certbot
 sudo apt install certbot python3-certbot-nginx
 
@@ -256,11 +256,11 @@ sudo certbot --nginx -d your-domain.com -d www.your-domain.com
 
 # Auto-renewal (already setup by certbot)
 sudo certbot renew --dry-run
-```
+\`\`\`
 
 ### Updates
 
-```bash
+\`\`\`bash
 # SSH into server
 cd /var/www/eincode
 
@@ -273,27 +273,27 @@ pnpm build
 
 # Restart
 pm2 restart eincode
-```
+\`\`\`
 
 ## Static Export (Not Recommended)
 
 If you only need static site (no server features):
 
 1. **Update next.config.mjs**:
-```javascript
+\`\`\`javascript
 const nextConfig = {
   output: 'export',
   images: {
     unoptimized: true,  // Required for static export
   },
 }
-```
+\`\`\`
 
 2. **Build**:
-```bash
+\`\`\`bash
 pnpm build
 # Static files in `out/` directory
-```
+\`\`\`
 
 3. **Deploy to any static host**:
    - Netlify
@@ -311,7 +311,7 @@ pnpm build
 
 Create `.github/workflows/deploy.yml`:
 
-```yaml
+\`\`\`yaml
 name: Deploy to Production
 
 on:
@@ -349,7 +349,7 @@ jobs:
           vercel-org-id: ${{ secrets.ORG_ID }}
           vercel-project-id: ${{ secrets.PROJECT_ID }}
           vercel-args: '--prod'
-```
+\`\`\`
 
 ## Performance Optimization for Production
 
@@ -357,7 +357,7 @@ jobs:
 Remove `unoptimized: true` from config
 
 ### 2. Add Caching Headers (Nginx)
-```nginx
+\`\`\`nginx
 location /_next/static {
     alias /var/www/eincode/.next/static;
     expires 365d;
@@ -369,24 +369,24 @@ location /static {
     expires 365d;
     add_header Cache-Control "public, immutable";
 }
-```
+\`\`\`
 
 ### 3. Enable Compression (Nginx)
-```nginx
+\`\`\`nginx
 gzip on;
 gzip_vary on;
 gzip_min_length 1024;
 gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json;
-```
+\`\`\`
 
 ### 4. Add Security Headers
-```nginx
+\`\`\`nginx
 add_header X-Frame-Options "SAMEORIGIN" always;
 add_header X-Content-Type-Options "nosniff" always;
 add_header X-XSS-Protection "1; mode=block" always;
 add_header Referrer-Policy "no-referrer-when-downgrade" always;
 add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
-```
+\`\`\`
 
 ## Monitoring
 
@@ -396,10 +396,10 @@ Already configured via `@vercel/analytics`
 ### Self-Hosted Monitoring
 
 1. **Install PM2 monitoring**:
-```bash
+\`\`\`bash
 pm2 install pm2-logrotate
 pm2 set pm2-logrotate:max_size 10M
-```
+\`\`\`
 
 2. **Setup Uptime Monitoring**:
    - Use [UptimeRobot](https://uptimerobot.com/) (free)
@@ -416,7 +416,7 @@ pm2 set pm2-logrotate:max_size 10M
 Click "Rollback" on previous deployment in Vercel dashboard
 
 ### Self-Hosted
-```bash
+\`\`\`bash
 # View deployment history
 pm2 list
 
@@ -431,29 +431,29 @@ git checkout <commit-hash>
 pnpm install
 pnpm build
 pm2 restart eincode
-```
+\`\`\`
 
 ## Backup Strategy
 
 ### Database (when added)
-```bash
+\`\`\`bash
 # Automated daily backups
 0 2 * * * /usr/bin/pg_dump eincode > /backups/eincode-$(date +\%Y\%m\%d).sql
-```
+\`\`\`
 
 ### Code
 Always in Git - no additional backup needed
 
 ### Static Assets
-```bash
+\`\`\`bash
 # rsync to backup server
 rsync -avz /var/www/eincode/public/ backup-server:/backups/eincode-public/
-```
+\`\`\`
 
 ## Troubleshooting Deployment
 
 ### Build Fails on Vercel
-```bash
+\`\`\`bash
 # Test build locally
 pnpm build
 
@@ -462,19 +462,19 @@ pnpm build
 # - TypeScript errors (if ignoreBuildErrors is removed)
 # - Missing dependencies
 # - Environment variables not set
-```
+\`\`\`
 
 ### 500 Error in Production
-```bash
+\`\`\`bash
 # Check PM2 logs
 pm2 logs eincode
 
 # Check Nginx logs
 sudo tail -f /var/log/nginx/error.log
-```
+\`\`\`
 
 ### Slow Performance
-```bash
+\`\`\`bash
 # Check server resources
 htop
 
@@ -485,7 +485,7 @@ pm2 restart eincode
 rm -rf .next/cache
 pnpm build
 pm2 restart eincode
-```
+\`\`\`
 
 ---
 

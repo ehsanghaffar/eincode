@@ -17,7 +17,7 @@ EinCode is a Next.js 16 + React 19 personal portfolio and digital laboratory bui
 
 ## Project Structure
 
-```
+\`\`\`
 eincode/
 ├── app/                          # Next.js App Router (server-first)
 │   ├── layout.tsx                # Root layout with fonts, metadata, ThemeProvider
@@ -71,7 +71,7 @@ eincode/
 │   └── copilot-instructions.md   # AI agent instructions
 │
 └── docs/                         # Project documentation (this folder)
-```
+\`\`\`
 
 ## Architecture Principles
 
@@ -87,7 +87,7 @@ eincode/
 - **Base UI primitives** live in `components/ui/`
 
 ### 3. **Data Flow**
-```
+\`\`\`
 Static Data (lib/blog-data.tsx)
     ↓
 Route Component (app/)
@@ -95,7 +95,7 @@ Route Component (app/)
 Page-Specific Component (components/public/)
     ↓
 Base UI Component (components/ui/)
-```
+\`\`\`
 
 ### 4. **Styling Architecture**
 - Tailwind CSS v4 with CSS-first approach
@@ -105,7 +105,7 @@ Base UI Component (components/ui/)
 - Utility classes composed with `cn()` helper from `lib/utils.ts`
 
 ### 5. **Theme System**
-```
+\`\`\`
 Root HTML element with .dark class
     ↓
 ThemeProvider (next-themes)
@@ -113,7 +113,7 @@ ThemeProvider (next-themes)
 CSS custom properties (:root and .dark)
     ↓
 Tailwind utilities (bg-background, text-foreground, etc.)
-```
+\`\`\`
 
 ## Key Design Decisions
 
@@ -146,7 +146,7 @@ Tailwind utilities (bg-background, text-foreground, etc.)
 ## Data Models
 
 ### BlogPost Interface
-```typescript
+\`\`\`typescript
 interface BlogPost {
   id: number
   slug: string              // URL-friendly identifier
@@ -165,7 +165,7 @@ interface BlogPost {
   featured: boolean         // Show in featured section
   color: string             // Tailwind gradient class
 }
-```
+\`\`\`
 
 ## Component Categories
 

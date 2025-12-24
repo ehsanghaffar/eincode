@@ -16,12 +16,12 @@
 ## Next.js 16 Image Optimization
 
 ### Problem
-```javascript
+\`\`\`javascript
 // next.config.mjs
 images: {
   unoptimized: true,  // ❌ Disables ALL image optimization
 }
-```
+\`\`\`
 
 **Impact**:
 - Images served at full size (can be 5-10MB)
@@ -33,7 +33,7 @@ images: {
 ### Solution
 
 1. **Remove the unoptimized flag**:
-```javascript
+\`\`\`javascript
 // next.config.mjs
 const nextConfig = {
   typescript: {
@@ -46,10 +46,10 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 }
-```
+\`\`\`
 
 2. **Use next/image everywhere**:
-```tsx
+\`\`\`tsx
 // ❌ Bad - No optimization
 <img src="/profile.png" alt="Profile" />
 
@@ -64,10 +64,10 @@ import Image from 'next/image'
   placeholder="blur"
   blurDataURL="data:image/jpeg;base64,..."
 />
-```
+\`\`\`
 
 3. **For remote images, configure domains**:
-```javascript
+\`\`\`javascript
 // next.config.mjs
 images: {
   remotePatterns: [
@@ -78,7 +78,7 @@ images: {
     },
   ],
 }
-```
+\`\`\`
 
 ### Expected Improvements
 - **60-80% smaller images** (AVIF/WebP compression)
@@ -92,7 +92,7 @@ images: {
 Too many components use `"use client"` unnecessarily.
 
 #### Components That Should Be Server Components
-```tsx
+\`\`\`tsx
 // ❌ components/hero-section.tsx - Currently client
 "use client"
 // Only uses IntersectionObserver for animations
@@ -100,16 +100,16 @@ Too many components use `"use client"` unnecessarily.
 
 // ✅ Should be:
 // Remove "use client" and use CSS animations
-```
+\`\`\`
 
-```tsx
+\`\`\`tsx
 // ❌ components/projects-grid.tsx - Currently client
 "use client"
 // Only displays static project data
 // Animation can be CSS-based
 
 // ✅ Should be: Server Component with CSS animations
-```
+\`\`\`
 
 #### When to Use Client Components
 
@@ -132,7 +132,7 @@ Too many components use `"use client"` unnecessarily.
 3. **Use CSS for animations instead of JavaScript**
 
 Example:
-```tsx
+\`\`\`tsx
 // Before: One big client component
 "use client"
 export function ProjectsGrid() {
@@ -155,7 +155,7 @@ export function ProjectsGrid() {
 .animate-on-scroll {
   animation: fadeIn 0.6s ease-out;
 }
-```
+\`\`\`
 
 ### Expected Improvements
 - **40-60% smaller JavaScript bundle**
@@ -168,16 +168,16 @@ export function ProjectsGrid() {
 ### Problem
 No Suspense boundaries = blocking data fetching.
 
-```tsx
+\`\`\`tsx
 // ❌ Current: Blocking
 export default async function BlogPage() {
   const posts = await fetchPosts()  // Blocks entire page
   return <BlogList posts={posts} />
 }
-```
+\`\`\`
 
 ### Solution
-```tsx
+\`\`\`tsx
 // ✅ With Suspense: Streaming
 import { Suspense } from 'react'
 
@@ -208,7 +208,7 @@ function BlogListSkeleton() {
     </div>
   )
 }
-```
+\`\`\`
 
 ### Expected Improvements
 - **Faster perceived load time**
@@ -219,19 +219,19 @@ function BlogListSkeleton() {
 ## Font Loading Optimization
 
 ### Problem
-```tsx
+\`\`\`tsx
 // app/layout.tsx
 const _geist = Geist({ subsets: ["latin"] })  // ❌ Unused (prefix _)
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 const _spaceGrotesk = Space_Grotesk({ subsets: ["latin"] })
-```
+\`\`\`
 
 **Impact**: Downloads fonts but never uses them = wasted bandwidth
 
 ### Solution
 
 **Option 1: Apply the fonts**
-```tsx
+\`\`\`tsx
 // app/layout.tsx
 const geist = Geist({ 
   subsets: ["latin"],
@@ -251,15 +251,15 @@ export default function RootLayout({ children }) {
 @theme inline {
   --font-sans: var(--font-geist), "Geist Fallback";
 }
-```
+\`\`\`
 
 **Option 2: Remove unused imports**
-```tsx
+\`\`\`tsx
 // app/layout.tsx
 // Remove all unused font imports
 import { Analytics } from "@vercel/analytics/next"
 // ... no font imports needed if using system fonts
-```
+\`\`\`
 
 ### Expected Improvements
 - **Faster initial page load**
@@ -275,68 +275,68 @@ import { Analytics } from "@vercel/analytics/next"
 ### Solution
 
 1. **Audit dependencies**:
-```bash
+\`\`\`bash
 npx depcheck
-```
+\`\`\`
 
 2. **Remove unused packages**:
-```bash
+\`\`\`bash
 pnpm remove @radix-ui/react-accordion @radix-ui/react-alert-dialog
 # ... remove all unused Radix components
-```
+\`\`\`
 
 3. **Add bundle analyzer**:
-```bash
+\`\`\`bash
 pnpm add -D @next/bundle-analyzer
-```
+\`\`\`
 
-```javascript
+\`\`\`javascript
 // next.config.mjs
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
 module.exports = withBundleAnalyzer(nextConfig)
-```
+\`\`\`
 
-```bash
+\`\`\`bash
 # Analyze bundle
 ANALYZE=true pnpm build
-```
+\`\`\`
 
 ## Animation Performance
 
 ### Problem
-```tsx
+\`\`\`tsx
 // components/cursor-glow.tsx
 style={{
   left: position.x,      // ❌ Triggers layout
   top: position.y,       // ❌ Triggers layout
   opacity: isVisible ? 1 : 0,
 }}
-```
+\`\`\`
 
 **Impact**: Animating `left`/`top` triggers expensive layout recalculations
 
 ### Solution
-```tsx
+\`\`\`tsx
 // Use transform instead
 style={{
   transform: `translate(${position.x}px, ${position.y}px)`,  // ✅ GPU accelerated
   opacity: isVisible ? 1 : 0,
   willChange: 'transform, opacity',  // ✅ Hint to browser
 }}
-```
+\`\`\`
 
 Or better, use CSS:
-```css
+\`\`\`css
 .cursor-glow {
   transform: translate(var(--x), var(--y));
   opacity: var(--opacity);
   will-change: transform, opacity;
   transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-```
+\`\`\`
 
 ### Expected Improvements
 - **60fps animations**
@@ -349,7 +349,7 @@ Or better, use CSS:
 No `loading.tsx` files = no loading UI during navigation
 
 ### Solution
-```tsx
+\`\`\`tsx
 // app/(public)/blog/loading.tsx
 export default function Loading() {
   return (
@@ -363,7 +363,7 @@ export default function Loading() {
     </div>
   )
 }
-```
+\`\`\`
 
 Create for:
 - `app/(public)/blog/loading.tsx`
@@ -376,7 +376,7 @@ Create for:
 No `error.tsx` files = full page crashes on errors
 
 ### Solution
-```tsx
+\`\`\`tsx
 // app/(public)/error.tsx
 'use client'
 
@@ -400,7 +400,7 @@ export default function Error({
     </div>
   )
 }
-```
+\`\`\`
 
 ## Performance Metrics Targets
 
@@ -424,7 +424,7 @@ export default function Error({
 ## Performance Monitoring
 
 ### Add Vercel Speed Insights
-```tsx
+\`\`\`tsx
 // app/layout.tsx
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -438,10 +438,10 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-```
+\`\`\`
 
 ### Add Web Vitals Reporting
-```tsx
+\`\`\`tsx
 // app/layout.tsx
 import { Analytics } from '@vercel/analytics/next'
 
@@ -455,7 +455,7 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-```
+\`\`\`
 
 ## Quick Wins Checklist
 
@@ -472,7 +472,7 @@ export default function RootLayout({ children }) {
 
 ## Performance Testing
 
-```bash
+\`\`\`bash
 # Test locally
 pnpm build && pnpm start
 
@@ -481,7 +481,7 @@ npx lighthouse http://localhost:3000 --view
 
 # Bundle analysis
 ANALYZE=true pnpm build
-```
+\`\`\`
 
 ---
 

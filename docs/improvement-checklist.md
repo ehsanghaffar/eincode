@@ -105,7 +105,7 @@ Create `loading.tsx` files with skeleton screens:
 - [ ] `app/(public)/workbench/loading.tsx`
 
 **Template**:
-```tsx
+\`\`\`tsx
 export default function Loading() {
   return (
     <div className="container mx-auto px-4 py-8">
@@ -118,7 +118,7 @@ export default function Loading() {
     </div>
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -131,7 +131,7 @@ Create `error.tsx` files:
 - [ ] `app/error.tsx` - Root error boundary
 
 **Template**:
-```tsx
+\`\`\`tsx
 'use client'
 
 export default function Error({
@@ -154,7 +154,7 @@ export default function Error({
     </div>
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -167,7 +167,7 @@ export default function Error({
 - [ ] Test by visiting non-existent route
 
 **Template**:
-```tsx
+\`\`\`tsx
 import Link from 'next/link'
 
 export default function NotFound() {
@@ -187,7 +187,7 @@ export default function NotFound() {
     </div>
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -204,7 +204,7 @@ Wrap async components in Suspense:
 - [ ] Any async data fetching
 
 **Example**:
-```tsx
+\`\`\`tsx
 import { Suspense } from 'react'
 
 export default function BlogPage() {
@@ -214,7 +214,7 @@ export default function BlogPage() {
     </Suspense>
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -267,7 +267,7 @@ export default function BlogPage() {
 
 **Templates**:
 
-```typescript
+\`\`\`typescript
 // app/sitemap.ts
 import { MetadataRoute } from 'next'
 import { blogPosts } from '@/lib/blog-data'
@@ -296,9 +296,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...posts,
   ]
 }
-```
+\`\`\`
 
-```typescript
+\`\`\`typescript
 // app/(public)/blog/[postSlug]/page.tsx - Add structured data
 export async function generateMetadata({ params }): Promise<Metadata> {
   const post = blogPosts.find(p => p.slug === params.postSlug)
@@ -326,7 +326,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     },
   }
 }
-```
+\`\`\`
 
 ---
 
@@ -339,7 +339,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 - [ ] Ensure smooth animation
 
 **Better approach**:
-```tsx
+\`\`\`tsx
 // Use grid-template-rows
 <div className={cn(
   "grid transition-all duration-400 md:hidden",
@@ -349,7 +349,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     {/* Menu content */}
   </div>
 </div>
-```
+\`\`\`
 
 ---
 
@@ -363,7 +363,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 - [ ] Or use Framer Motion's `useInView`
 
 **Template**:
-```typescript
+\`\`\`typescript
 // hooks/use-in-view.ts
 import { useEffect, useRef, useState } from 'react'
 
@@ -386,7 +386,7 @@ export function useInView(options?: IntersectionObserverInit) {
 
   return { ref, isInView }
 }
-```
+\`\`\`
 
 ---
 
@@ -410,12 +410,12 @@ export function useInView(options?: IntersectionObserverInit) {
 - [ ] Update data fetching
 
 **MDX Setup**:
-```bash
+\`\`\`bash
 pnpm add @next/mdx @mdx-js/loader @mdx-js/react @types/mdx
 pnpm add remark-gfm rehype-highlight
-```
+\`\`\`
 
-```javascript
+\`\`\`javascript
 // next.config.mjs
 import createMDX from '@next/mdx'
 
@@ -427,7 +427,7 @@ const withMDX = createMDX({
 })
 
 export default withMDX(nextConfig)
-```
+\`\`\`
 
 ---
 
@@ -449,7 +449,7 @@ export default withMDX(nextConfig)
 - [ ] Add instant search results
 
 **Client-side template**:
-```tsx
+\`\`\`tsx
 'use client'
 
 export function BlogSearch({ posts }: { posts: BlogPost[] }) {
@@ -477,7 +477,7 @@ export function BlogSearch({ posts }: { posts: BlogPost[] }) {
     </div>
   )
 }
-```
+\`\`\`
 
 ---
 
@@ -491,7 +491,7 @@ export function BlogSearch({ posts }: { posts: BlogPost[] }) {
 - [ ] Test subscription flow
 
 **API Route**:
-```typescript
+\`\`\`typescript
 // app/api/newsletter/route.ts
 import { NextResponse } from 'next/server'
 
@@ -528,7 +528,7 @@ export async function POST(request: Request) {
   
   return NextResponse.json({ success: true })
 }
-```
+\`\`\`
 
 ---
 
@@ -541,7 +541,7 @@ export async function POST(request: Request) {
 - [ ] Test feed in RSS reader
 
 **Template**:
-```typescript
+\`\`\`typescript
 // app/rss.xml/route.ts
 import { blogPosts } from '@/lib/blog-data'
 import { NextResponse } from 'next/server'
@@ -573,7 +573,7 @@ export async function GET() {
     },
   })
 }
-```
+\`\`\`
 
 ---
 
@@ -587,13 +587,13 @@ export async function GET() {
 - [ ] Update Vercel env vars
 
 **Files**:
-```env
+\`\`\`env
 # .env.local
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_GITHUB_URL=https://github.com/ehsanghaffar
 NEXT_PUBLIC_TWITTER_URL=https://twitter.com/ehsanghaffar
 NEXT_PUBLIC_LINKEDIN_URL=https://linkedin.com/in/ehsanghaffar
-```
+\`\`\`
 
 ---
 
@@ -606,14 +606,14 @@ NEXT_PUBLIC_LINKEDIN_URL=https://linkedin.com/in/ehsanghaffar
 - [ ] Run `pnpm install` to update lockfile
 - [ ] Verify app still works
 
-```bash
+\`\`\`bash
 # Check for unused deps
 npx depcheck
 
 # Remove (example)
 pnpm remove @radix-ui/react-accordion @radix-ui/react-alert-dialog
 # ... remove all unused
-```
+\`\`\`
 
 ---
 
@@ -627,24 +627,24 @@ pnpm remove @radix-ui/react-accordion @radix-ui/react-alert-dialog
 - [ ] Use GPU-accelerated properties
 - [ ] Test animation performance
 
-```css
+\`\`\`css
 /* app/globals.css */
 .animated-element {
   will-change: transform, opacity;
   transform: translateZ(0); /* Force GPU */
 }
-```
+\`\`\`
 
 ---
 
 ### 21. Add Bundle Analysis
 **Priority**: P3 | **Impact**: Low | **Effort**: Low (15 min)
 
-```bash
+\`\`\`bash
 pnpm add -D @next/bundle-analyzer
-```
+\`\`\`
 
-```javascript
+\`\`\`javascript
 // next.config.mjs
 import bundleAnalyzer from '@next/bundle-analyzer'
 
@@ -653,12 +653,12 @@ const withBundleAnalyzer = bundleAnalyzer({
 })
 
 export default withBundleAnalyzer(nextConfig)
-```
+\`\`\`
 
-```bash
+\`\`\`bash
 # Analyze
 ANALYZE=true pnpm build
-```
+\`\`\`
 
 ---
 
@@ -678,7 +678,7 @@ ANALYZE=true pnpm build
 
 When moving to dynamic content:
 
-```typescript
+\`\`\`typescript
 // Revalidate every hour
 export const revalidate = 3600
 
@@ -688,7 +688,7 @@ export async function generateStaticParams() {
     postSlug: post.slug,
   }))
 }
-```
+\`\`\`
 
 ---
 
