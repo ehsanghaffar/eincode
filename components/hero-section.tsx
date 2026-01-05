@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-const roles = ["building interfaces", "exploring systems", "breaking barriers", "forging ideas", "crafting code"]
+const roles = ["building interfaces", "creating learnings tools", "breaking barriers", "crafting code"]
 
 export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0)

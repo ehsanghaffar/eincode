@@ -4,7 +4,7 @@ const socialLinks = [
   { label: "GitHub", href: "https://github.com/ehsanghaffar", handle: "@ehsanghaffar", icon: Github },
   { label: "Twitter", href: "https://twitter.com/ehsanghaffar", handle: "@ehsanghaffar", icon: Twitter },
   { label: "LinkedIn", href: "https://linkedin.com/in/ehsanghaffar", handle: "/in/ehsanghaffar", icon: Linkedin },
-  { label: "Email", href: "mailto:hello@ehsanghaffar.dev", handle: "hello@ehsanghaffar.dev", icon: Mail },
+  { label: "Email", href: "mailto:ghafari.5000@gmail.com", handle: "hello@ehsanghaffar.dev", icon: Mail },
 ]
 
 export function Footer() {
