@@ -19,99 +19,6 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
-    id: 1,
-    slug: "building-linux-distro-from-scratch",
-    title: "Building a Linux Distro from Scratch",
-    excerpt:
-      "A comprehensive guide to compiling the kernel, configuring BusyBox, and creating bootable ISOs with Syslinux. Learn the fundamentals of Linux system architecture.",
-    content: `
-## Introduction
-
-Building a Linux distribution from scratch is one of the most rewarding learning experiences for any systems programmer. It forces you to understand how all the pieces fit together—from the bootloader to user space.
-
-## Prerequisites
-
-Before we begin, ensure you have:
-- A Linux host system (Ubuntu 22.04+ recommended)
-- At least 20GB of free disk space
-- Basic knowledge of shell scripting
-- Patience (this will take time)
-
-## Step 1: Setting Up the Build Environment
-
-First, we need to create a clean build environment. We'll use a chroot to isolate our build:
-
-\`\`\`bash
-export LFS=/mnt/lfs
-mkdir -pv $LFS
-mount /dev/sdb1 $LFS
-\`\`\`
-
-## Step 2: Compiling the Kernel
-
-The Linux kernel is the heart of our distribution. We'll compile version 6.1 LTS:
-
-\`\`\`bash
-cd /usr/src
-wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.tar.xz
-tar xf linux-6.1.tar.xz
-cd linux-6.1
-make menuconfig
-make -j$(nproc)
-make modules_install
-make install
-\`\`\`
-
-## Step 3: Configuring BusyBox
-
-BusyBox provides essential Unix utilities in a single executable:
-
-\`\`\`bash
-wget https://busybox.net/downloads/busybox-1.36.0.tar.bz2
-tar xf busybox-1.36.0.tar.bz2
-cd busybox-1.36.0
-make defconfig
-make CONFIG_STATIC=y -j$(nproc)
-make install
-\`\`\`
-
-## Step 4: Creating the Root Filesystem
-
-Now we assemble our minimal root filesystem:
-
-\`\`\`bash
-mkdir -p $LFS/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
-cp -a busybox-1.36.0/_install/* $LFS/
-\`\`\`
-
-## Step 5: Building a Bootable ISO
-
-Finally, we create a bootable ISO using Syslinux:
-
-\`\`\`bash
-mkdir -p iso/boot/syslinux
-cp /usr/lib/syslinux/bios/*.c32 iso/boot/syslinux/
-cp /usr/lib/syslinux/bios/isolinux.bin iso/boot/syslinux/
-xorriso -as mkisofs -o mylinux.iso -b boot/syslinux/isolinux.bin iso/
-\`\`\`
-
-## Conclusion
-
-You now have a minimal but functional Linux distribution. From here, you can add package management, init systems, and desktop environments. The journey of a thousand miles begins with a single step—and you've just taken yours.
-    `,
-    date: "Nov 15, 2025",
-    readTime: "12 min read",
-    category: "systems",
-    tags: ["linux", "kernel", "devops"],
-    author: {
-      name: "Ehsan Ghaffar",
-      avatar: "/developer-portrait.png",
-      role: "Software Engineer",
-    },
-    featured: true,
-    color: "from-blue-500/20 to-cyan-500/20",
-  },
-  {
     id: 2,
     slug: "mcp-protocol-llm-applications",
     title: "MCP Protocol in LLM Applications",
@@ -540,6 +447,256 @@ Design tokens bridge the gap between design and development. Invest in the found
     },
     featured: false,
     color: "from-teal-500/20 to-cyan-500/20",
+  },
+  {
+    id: 7,
+    slug: "lti-learning-platforms-integration",
+    title: "Understanding LTI: Integrating Learning Tools with Educational Platforms",
+    excerpt:
+      "A comprehensive guide to Learning Tools Interoperability (LTI) 1.3 - the standard protocol that enables seamless integration between learning management systems and external educational tools.",
+    content: `
+## Introduction
+
+Learning Tools Interoperability (LTI) is the global standard for integrating learning applications with platforms like Canvas, Moodle, Blackboard, and other Learning Management Systems (LMS). If you're building educational technology, understanding LTI is essential for creating tools that educators can easily adopt.
+
+## What is LTI?
+
+LTI is a standard developed by IMS Global Learning Consortium that defines how learning tools communicate with platforms. Think of it as OAuth for education - it handles authentication, user data transfer, and grade passback in a secure, standardized way.
+
+### Key Benefits
+
+- **Single Sign-On**: Students and teachers access tools without additional logins
+- **Automatic Rostering**: User information flows seamlessly from LMS to tool
+- **Grade Passback**: Tools can send grades directly to the LMS gradebook
+- **Privacy & Security**: Built on OAuth 2.0 and OpenID Connect standards
+
+## LTI 1.3 Architecture
+
+LTI 1.3 represents a major upgrade from earlier versions, replacing custom security schemes with industry-standard protocols.
+
+### The Launch Flow
+
+1. **User Initiates Launch**: Student clicks on an LTI link in the LMS
+2. **Platform Creates JWT**: LMS generates a signed JSON Web Token containing user/context data
+3. **Tool Validates Token**: External tool verifies the JWT signature and processes claims
+4. **Tool Renders Content**: Application displays personalized content for the user
+
+## Understanding the Launch Request
+
+Here's what a typical LTI 1.3 launch request looks like:
+
+\`\`\`http
+POST https://example.tool.com/lti/launch
+Content-Type: application/x-www-form-urlencoded
+
+id_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+\`\`\`
+
+The JWT payload contains rich contextual information:
+
+\`\`\`json
+{
+  "iss": "https://platform.example.edu",
+  "sub": "a6d5c443-1f51-4783-ba1a-7686ffe3b54a",
+  "aud": ["962fa4d8-bcbf-49a0-94b2-2de05ad274af"],
+  "https://purl.imsglobal.org/spec/lti/claim/message_type": "LtiResourceLinkRequest",
+  "https://purl.imsglobal.org/spec/lti/claim/version": "1.3.0",
+  "https://purl.imsglobal.org/spec/lti/claim/roles": [
+    "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+  ],
+  "https://purl.imsglobal.org/spec/lti/claim/context": {
+    "id": "c1d887f0-a1a3-4bca-ae25-c375edcc131a",
+    "label": "ECON 1010",
+    "title": "Economics as a Social Science"
+  }
+}
+\`\`\`
+
+### Key Claims Explained
+
+- **iss** (issuer): The platform URL
+- **sub** (subject): Unique user identifier
+- **aud** (audience): Your tool's client ID
+- **roles**: User's role in the course (student, instructor, admin)
+- **context**: Course information
+- **resource_link**: The specific link being launched
+
+## Security Model
+
+LTI 1.3 security is built on three pillars:
+
+### 1. Platform Registration
+
+Tools must register with platforms, receiving:
+- **Client ID**: Identifies your tool
+- **Deployment ID**: Identifies specific tool installations
+- **Public Key URL**: Where the platform publishes keys for JWT validation
+
+### 2. OIDC Login Flow
+
+Before the actual launch, a lightweight OIDC flow establishes the session:
+
+\`\`\`
+1. Platform → Tool: Login initiation request
+2. Tool → Platform: Authentication request
+3. Platform → Tool: Launch request with signed JWT
+\`\`\`
+
+### 3. JWT Validation
+
+Your tool MUST validate:
+- Signature using platform's public key
+- Issuer matches registered platform
+- Audience contains your client ID
+- Token hasn't expired (exp claim)
+- Nonce hasn't been used before
+
+## Implementing LTI in Your Application
+
+### Backend Implementation (Node.js Example)
+
+\`\`\`typescript
+import { JWK, JWT } from 'jose';
+
+async function validateLaunchToken(idToken: string) {
+  // 1. Decode without verification first
+  const decoded = JWT.decode(idToken, { complete: true });
+  
+  // 2. Fetch platform's public key
+  const platformKeys = await fetchPlatformKeys(decoded.payload.iss);
+  
+  // 3. Verify signature
+  const verified = await JWT.verify(idToken, platformKeys, {
+    issuer: decoded.payload.iss,
+    audience: process.env.LTI_CLIENT_ID
+  });
+  
+  // 4. Validate required claims
+  if (!verified['https://purl.imsglobal.org/spec/lti/claim/message_type']) {
+    throw new Error('Invalid LTI message type');
+  }
+  
+  return verified;
+}
+\`\`\`
+
+### Grade Passback with Assignment and Grade Services
+
+One of LTI's most powerful features is sending grades back to the LMS:
+
+\`\`\`typescript
+async function sendGrade(userId: string, score: number) {
+  const lineItemUrl = launch.claims[
+    'https://purl.imsglobal.org/spec/lti-ags/claim/endpoint'
+  ].lineitem;
+  
+  // Get OAuth2 access token
+  const accessToken = await getAccessToken();
+  
+  // Submit score
+  await fetch(\`\${lineItemUrl}/scores\`, {
+    method: 'POST',
+    headers: {
+      'Authorization': \`Bearer \${accessToken}\`,
+      'Content-Type': 'application/vnd.ims.lis.v1.score+json'
+    },
+    body: JSON.stringify({
+      userId: userId,
+      scoreGiven: score,
+      scoreMaximum: 100,
+      activityProgress: 'Completed',
+      gradingProgress: 'FullyGraded'
+    })
+  });
+}
+\`\`\`
+
+## Deep Link: Dynamic Content Selection
+
+Deep Linking allows instructors to select specific content from your tool to add to their course:
+
+\`\`\`typescript
+// Respond to deep link request
+function createDeepLinkResponse(contentItems: ContentItem[]) {
+  const jwt = JWT.sign({
+    iss: clientId,
+    aud: platformUrl,
+    exp: Math.floor(Date.now() / 1000) + 600,
+    iat: Math.floor(Date.now() / 1000),
+    nonce: generateNonce(),
+    'https://purl.imsglobal.org/spec/lti/claim/message_type': 
+      'LtiDeepLinkingResponse',
+    'https://purl.imsglobal.org/spec/lti-dl/claim/content_items': 
+      contentItems
+  }, privateKey, { algorithm: 'RS256' });
+  
+  return jwt;
+}
+\`\`\`
+
+## Best Practices
+
+### Security
+
+- **Always validate JWT signatures** - Never trust unverified tokens
+- **Check nonce uniqueness** - Store used nonces to prevent replay attacks
+- **Use HTTPS everywhere** - LTI requires secure communication
+- **Rotate keys regularly** - Update your public/private key pairs periodically
+
+### User Experience
+
+- **Handle missing claims gracefully** - Not all platforms send optional claims
+- **Implement loading states** - LTI launches can take a few seconds
+- **Provide fallback authentication** - For development and testing
+- **Cache platform keys** - Don't fetch public keys on every request
+
+### Testing
+
+- **Use LTI Advantage Test Suite** - IMS provides certification tools
+- **Test with multiple platforms** - Canvas, Moodle, Blackboard all have quirks
+- **Mock launch requests** - Create test JWTs for development
+
+## Common Pitfalls
+
+1. **Clock Skew**: JWT exp/iat validation fails if server clocks aren't synchronized
+2. **Nonce Storage**: Forgetting to store nonces opens replay attack vulnerabilities  
+3. **Role Mapping**: Different platforms use different role vocabularies
+4. **Deep Link State**: Not preserving state during multi-step content selection flows
+
+## Real-World Use Cases
+
+- **Interactive Assessments**: Quiz tools that automatically grade and send scores
+- **Video Platforms**: Embedding educational videos with progress tracking
+- **Collaboration Tools**: Discussion boards that sync with course rosters
+- **Content Libraries**: Allowing instructors to select and embed resources
+- **Adaptive Learning**: Personalized learning paths that integrate with course structure
+
+## Tools and Libraries
+
+- **ltijs** (Node.js): Full-featured LTI 1.3 library
+- **pylti1p3** (Python): LTI 1.3 implementation for Python/Django
+- **lti-1-3-php-library** (PHP): PHP implementation of LTI 1.3
+- **IMS Reference Implementation**: Official Java-based reference
+
+## Conclusion
+
+LTI 1.3 is a robust, secure standard that solves the complex problem of integrating third-party tools into learning platforms. While the initial setup requires understanding OAuth 2.0 and JWT, the payoff is enormous: your educational tool becomes instantly compatible with hundreds of institutions worldwide.
+
+The education technology landscape is rapidly evolving, and LTI provides the interoperability foundation that allows innovation to flourish. Whether you're building assessment tools, content libraries, or collaborative platforms, implementing LTI opens doors to millions of students and educators.
+
+Start with a simple launch implementation, add grade passback when needed, and explore advanced features like Deep Linking and Names and Role Provisioning Service as your integration matures. The investment in understanding LTI pays dividends in market reach and user adoption.
+    `,
+    date: "Jan 7, 2026",
+    readTime: "18 min read",
+    category: "systems",
+    tags: ["lti", "education", "integration", "oauth", "jwt"],
+    author: {
+      name: "Ehsan Ghaffar",
+      avatar: "/developer-portrait.png",
+      role: "Software Engineer",
+    },
+    featured: true,
+    color: "from-indigo-500/20 to-blue-500/20",
   },
 ]
 
