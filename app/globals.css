@@ -126,9 +126,35 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    /* Optimize for mobile touch and performance */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
   }
   body {
     @apply bg-background text-foreground;
+    /* Ensure smooth scrolling on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Enable hardware acceleration for better mobile performance */
+    transform: translateZ(0);
+    will-change: auto;
+    /* Prevent unwanted zoom on input focus for iOS */
+    font-size: 16px;
+  }
+  
+  html {
+    /* Smooth scroll behavior */
+    scroll-behavior: smooth;
+    /* Mobile-friendly viewport */
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Improve touch targets on mobile */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+    @apply md:min-h-auto md:min-w-auto;
   }
 }
 
@@ -505,4 +531,127 @@
 ::selection {
   background: oklch(from var(--primary) l c h / 0.3);
   color: var(--foreground);
+}
+
+/* Mobile-First Responsive Utilities */
+@media (max-width: 640px) {
+  /* Improve readability on small screens */
+  body {
+    font-size: 15px;
+  }
+  
+  /* Optimize spacing for mobile */
+  .container {
+    @apply px-4;
+  }
+  
+  /* Prevent layout shift on mobile */
+  input, select, textarea {
+    font-size: 16px;
+  }
+  
+  /* Improve touch interactions */
+  button, a {
+    transition: all 0.15s ease-out;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Reduce animation complexity on mobile */
+  .cursor-glow {
+    display: none;
+  }
+  
+  /* Optimize scrollbar for mobile */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover states on touch devices, use active instead */
+  button:hover, a:hover {
+    background-color: inherit;
+  }
+  
+  /* Ensure active states are visible */
+  button:active, a:active {
+    opacity: 0.7;
+  }
+  
+  /* Improve tactile feedback */
+  button, [role="button"] {
+    @apply active:scale-95;
+  }
+  
+  /* Reduce blur effects on mobile for performance */
+  .glass {
+    backdrop-filter: blur(8px) saturate(1.2);
+  }
+  
+  .glass-strong {
+    backdrop-filter: blur(12px) saturate(1.5);
+  }
+}
+
+/* High-res display optimizations */
+@media (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}
+
+/* Dark mode optimization for battery life on OLED screens */
+@media (prefers-color-scheme: dark) {
+  .dark {
+    /* Encourage usage of true black for OLED displays */
+    color-scheme: dark;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .cursor-glow {
+    display: none;
+  }
+  
+  .hover-lift:hover {
+    transform: none;
+  }
+}
+
+/* Landscape orientation optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  header {
+    height: auto;
+  }
+  
+  .pt-28, .pt-36 {
+    @apply pt-16;
+  }
+}
+
+/* Extra small screen optimization */
+@media (max-width: 360px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
 }
