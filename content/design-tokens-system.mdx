@@ -1,0 +1,81 @@
+---
+title: "Building a Design Token System"
+excerpt: "Creating a scalable design token architecture that works across platforms. From CSS variables to Figma tokens and everything in between."
+date: "2024-08-22"
+dateISO: "2024-08-22"
+category: "frontend"
+readTime: "9 min read"
+tags: ["design-systems", "css", "tokens"]
+author: "Ehsan Ghaffar"
+published: true
+---
+
+## What Are Design Tokens?
+
+Design tokens are the atomic values of your design system—colors, spacing, typography, shadows. They're platform-agnostic and enable consistency across web, mobile, and design tools.
+
+## Token Hierarchy
+
+A well-structured token system has three layers:
+
+### 1. Primitive Tokens (Raw Values)
+
+```json
+{
+  "blue-500": "#3b82f6",
+  "space-4": "16px",
+  "font-size-lg": "18px"
+}
+```
+
+### 2. Semantic Tokens (Purpose)
+
+```json
+{
+  "color-primary": "{blue-500}",
+  "spacing-component": "{space-4}",
+  "text-body": "{font-size-lg}"
+}
+```
+
+### 3. Component Tokens (Specific Use)
+
+```json
+{
+  "button-background": "{color-primary}",
+  "button-padding": "{spacing-component}",
+  "button-font-size": "{text-body}"
+}
+```
+
+## Implementation in CSS
+
+```css
+:root {
+  /* Primitives */
+  --blue-500: #3b82f6;
+
+  /* Semantic */
+  --color-primary: var(--blue-500);
+
+  /* Component */
+  --button-bg: var(--color-primary);
+}
+
+.button {
+  background: var(--button-bg);
+}
+```
+
+## Syncing with Figma
+
+Use the Tokens Studio plugin to export tokens:
+
+1. Define tokens in Figma using Tokens Studio
+2. Export as JSON
+3. Transform with Style Dictionary
+4. Generate platform-specific outputs
+
+## Conclusion
+
+Design tokens bridge the gap between design and development. Invest in the foundation, and your design system scales effortlessly.

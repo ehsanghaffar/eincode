@@ -1,0 +1,89 @@
+---
+title: "Next.js 16 + Tailwind CSS v4 Migration Guide"
+excerpt: "Exploring the new features in Next.js 16 and migrating to Tailwind CSS v4's new configuration system. A practical guide to modern frontend tooling."
+date: "2024-12-10"
+dateISO: "2024-12-10"
+category: "frontend"
+readTime: "10 min read"
+tags: ["nextjs", "tailwind", "react"]
+author: "Ehsan Ghaffar"
+published: true
+---
+
+## What's New in Next.js 16
+
+Next.js 16 brings significant changes that improve both developer experience and application performance:
+
+### Turbopack as Default
+
+Turbopack is now the default bundler, offering near-instant hot module replacement:
+
+```bash
+# No configuration needed - it's automatic!
+npm run dev
+```
+
+### Cache Components with "use cache"
+
+The new directive makes caching explicit and flexible:
+
+```tsx
+'use cache'
+
+export default async function ProductPage({ id }) {
+  const product = await fetchProduct(id);
+  return <ProductDisplay product={product} />;
+}
+```
+
+## Migrating to Tailwind CSS v4
+
+Tailwind v4 introduces a CSS-first configuration approach:
+
+### Before (tailwind.config.js)
+
+```javascript
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: '#3b82f6'
+      }
+    }
+  }
+}
+```
+
+### After (globals.css)
+
+```css
+@import 'tailwindcss';
+
+@theme inline {
+  --color-brand: #3b82f6;
+  --font-sans: 'Inter', sans-serif;
+}
+```
+
+## Step-by-Step Migration
+
+1. **Update dependencies**:
+```bash
+npm install next@16 tailwindcss@4
+```
+
+2. **Remove tailwind.config.js** and move configuration to CSS
+
+3. **Update font imports** in layout.tsx
+
+4. **Test thoroughly** - some utility classes may have changed
+
+## Common Gotchas
+
+- `@apply` works differently in v4
+- Custom plugins need updates
+- Some deprecated utilities are removed
+
+## Conclusion
+
+The migration takes effort but the improved DX and performance are worth it. Start with a fresh branch and migrate incrementally.

@@ -1,0 +1,85 @@
+---
+title: "Building a Linux Distro from Scratch"
+excerpt: "A comprehensive guide to compiling the kernel, configuring BusyBox, and creating bootable ISOs with Syslinux. Learn the fundamentals of Linux system architecture."
+date: "2025-11-15"
+dateISO: "2025-11-15"
+category: "systems"
+readTime: "12 min read"
+tags: ["linux", "kernel", "devops"]
+author: "Ehsan Ghaffar"
+published: true
+---
+
+## Introduction
+
+Building a Linux distribution from scratch is one of the most rewarding learning experiences for any systems programmer. It forces you to understand how all the pieces fit together—from the bootloader to user space.
+
+## Prerequisites
+
+Before we begin, ensure you have:
+- A Linux host system (Ubuntu 22.04+ recommended)
+- At least 20GB of free disk space
+- Basic knowledge of shell scripting
+- Patience (this will take time)
+
+## Step 1: Setting Up the Build Environment
+
+First, we need to create a clean build environment. We'll use a chroot to isolate our build:
+
+```bash
+export LFS=/mnt/lfs
+mkdir -pv $LFS
+mount /dev/sdb1 $LFS
+```
+
+## Step 2: Compiling the Kernel
+
+The Linux kernel is the heart of our distribution. We'll compile version 6.1 LTS:
+
+```bash
+cd /usr/src
+wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.tar.xz
+tar xf linux-6.1.tar.xz
+cd linux-6.1
+make menuconfig
+make -j$(nproc)
+make modules_install
+make install
+```
+
+## Step 3: Configuring BusyBox
+
+BusyBox provides essential Unix utilities in a single executable:
+
+```bash
+wget https://busybox.net/downloads/busybox-1.36.0.tar.bz2
+tar xf busybox-1.36.0.tar.bz2
+cd busybox-1.36.0
+make defconfig
+make CONFIG_STATIC=y -j$(nproc)
+make install
+```
+
+## Step 4: Creating the Root Filesystem
+
+Now we assemble our minimal root filesystem:
+
+```bash
+mkdir -p $LFS/{bin,sbin,etc,proc,sys,usr/{bin,sbin}}
+cp -a busybox-1.36.0/_install/* $LFS/
+```
+
+## Step 5: Building a Bootable ISO
+
+Finally, we create a bootable ISO using Syslinux:
+
+```bash
+mkdir -p iso/boot/syslinux
+cp /usr/lib/syslinux/bios/*.c32 iso/boot/syslinux/
+cp /usr/lib/syslinux/bios/isolinux.bin iso/boot/syslinux/
+xorriso -as mkisofs -o mylinux.iso -b boot/syslinux/isolinux.bin iso/
+```
+
+## Conclusion
+
+You now have a minimal but functional Linux distribution. From here, you can add package management, init systems, and desktop environments. The journey of a thousand miles begins with a single step—and you've just taken yours.
