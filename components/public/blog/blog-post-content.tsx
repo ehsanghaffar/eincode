@@ -226,7 +226,7 @@ export function BlogPostContent({ post, relatedPosts = [] }: BlogPostContentProp
                   className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
                   onClick={() =>
                     window.open(
-                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`,
+                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.slug)}`,
                       "_blank",
                     )
                   }
@@ -306,7 +306,7 @@ export function BlogPostContent({ post, relatedPosts = [] }: BlogPostContentProp
               className="h-9 w-9 rounded-lg border-border/50 bg-transparent"
               onClick={() =>
                 window.open(
-                  `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.title)}`,
+                  `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.slug)}`,
                   "_blank",
                 )
               }

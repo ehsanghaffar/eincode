@@ -44,7 +44,7 @@ export function BlogList({ posts }: BlogListProps) {
           style={{ animationDelay: `${index * 80 + 100}ms` }}
         >
           <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-10">
-            <span className="sr-only">Read {post.title}</span>
+            <span className="sr-only">Read {post.slug}</span>
           </Link>
 
           <div className="relative z-0">
