@@ -11,11 +11,12 @@ import type { BlogPost } from "@/types/mdx"
 interface BlogPostContentProps {
   post: BlogPost
   relatedPosts?: BlogPost[]
+  contentNode?: React.ReactNode
 }
 
 type TocItem = { level: 2 | 3; text: string; id: string }
 
-export function BlogPostContent({ post, relatedPosts = [] }: BlogPostContentProps) {
+export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPostContentProps) {
   const [isVisible, setIsVisible] = useState(false)
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -34,20 +35,17 @@ export function BlogPostContent({ post, relatedPosts = [] }: BlogPostContentProp
   }, [])
 
   useEffect(() => {
-    // Build a lightweight TOC from markdown headings (##, ###)
-    const lines = post.content.split(/\r?\n/)
-    const items: TocItem[] = []
-    for (const line of lines) {
-      if (line.startsWith("## ")) {
-        const text = line.replace(/^##\s+/, "").trim()
-        items.push({ level: 2 as const, text, id: slugify(text) })
-      } else if (line.startsWith("### ")) {
-        const text = line.replace(/^###\s+/, "").trim()
-        items.push({ level: 3 as const, text, id: slugify(text) })
-      }
-    }
+    // Build TOC from rendered headings (prefer ids set by rehype-slug)
+    const el = contentRef.current
+    if (!el) return
+    const headings = Array.from(el.querySelectorAll<HTMLElement>("h2, h3"))
+    const items: TocItem[] = headings.map((h) => ({
+      level: (h.tagName.toLowerCase() === "h2" ? 2 : 3) as 2 | 3,
+      text: h.textContent ?? "",
+      id: h.id || (h.textContent ?? "").toLowerCase().replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-"),
+    }))
     setToc(items)
-  }, [post.content])
+  }, [post.slug])
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -188,8 +186,9 @@ export function BlogPostContent({ post, relatedPosts = [] }: BlogPostContentProp
                 isVisible && "animate-fade-in-up",
               )}
               style={{ animationDelay: "350ms" }}
-              dangerouslySetInnerHTML={{ __html: parseMarkdown(post.content) }}
-            />
+            >
+              {contentNode}
+            </article>
 
             {/* Sticky Sidebar: TOC + Share */}
             <aside className={cn("hidden lg:block opacity-0", isVisible && "animate-fade-in-up")} style={{ animationDelay: "400ms" }}>
@@ -402,46 +401,4 @@ export function BlogPostContent({ post, relatedPosts = [] }: BlogPostContentProp
   )
 }
 
-// Simple markdown parser for rendering content
-function parseMarkdown(content: string): string {
-  return (
-    content
-      // Headers with IDs
-      .replace(/^### (.*$)/gm, (_m, t) => `<h3 id="${slugify(t)}">${t}</h3>`)
-      .replace(/^## (.*$)/gm, (_m, t) => `<h2 id="${slugify(t)}">${t}</h2>`)
-      .replace(/^# (.*$)/gm, (_m, t) => `<h1>${t}</h1>`)
-      // Bold
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      // Italic
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      // Code blocks
-      .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
-      // Inline code
-      .replace(/`([^`]+)`/g, "<code>$1</code>")
-      // Unordered lists
-      .replace(/^- (.*$)/gm, "<li>$1</li>")
-      .replace(/(<li>.*<\/li>)\n(?=<li>)/g, "$1")
-      .replace(/(<li>.*<\/li>)(?:\n|$)/g, "<ul>$1</ul>")
-      // Ordered lists
-      .replace(/^\d+\. (.*$)/gm, "<li>$1</li>")
-      // Paragraphs
-      .replace(/\n\n(?!<)/g, "</p><p>")
-      .replace(/^(?!<)(.+)$/gm, "<p>$1</p>")
-      // Clean up empty paragraphs
-      .replace(/<p><\/p>/g, "")
-      .replace(/<p>(<h[1-3]>)/g, "$1")
-      .replace(/(<\/h[1-3]>)<\/p>/g, "$1")
-      .replace(/<p>(<pre>)/g, "$1")
-      .replace(/(<\/pre>)<\/p>/g, "$1")
-      .replace(/<p>(<ul>)/g, "$1")
-      .replace(/(<\/ul>)<\/p>/g, "$1")
-  )
-}
-
-function slugify(str: string): string {
-  return str
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .trim()
-    .replace(/\s+/g, "-")
-}
+// content is now rendered via server-side MDX; manual parser removed

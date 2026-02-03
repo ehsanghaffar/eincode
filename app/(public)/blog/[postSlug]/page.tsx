@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { BlogPostContent } from "@/components/public/blog/blog-post-content";
 import type { Metadata } from "next";
 import { getMDXPostBySlug, getPostSlugs, getAllMDXPosts } from "@/lib/mdx-utils";
-import type { BlogPost } from "@/types/mdx";
+import { MdxRemote } from "@/components/mdx-remote";
 
 interface BlogPostPageProps {
   params: Promise<{ postSlug: string }>;
@@ -79,7 +79,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <div>
-        <BlogPostContent post={post} relatedPosts={relatedPosts} />
+        <BlogPostContent
+          post={post}
+          relatedPosts={relatedPosts}
+          contentNode={<MdxRemote source={post.content} className="prose prose-invert prose-lg max-w-none" />}
+        />
       </div>
     </>
   );
