@@ -1,0 +1,80 @@
+---
+title: "Self-Hosting LLMs with FastAPI"
+excerpt: "Running Llama2 locally and building a personal chatbot API for natural language tasks. Complete guide from model setup to production deployment."
+date: "2024-10-05"
+dateISO: "2024-10-05"
+category: "ai"
+readTime: "15 min read"
+tags: ["llm", "python", "fastapi"]
+author: "Ehsan Ghaffar"
+published: true
+---
+
+## Why Self-Host?
+
+Self-hosting LLMs gives you complete control over your AI infrastructure:
+- **Privacy**: Data never leaves your servers
+- **Cost**: No per-token charges after initial setup
+- **Customization**: Fine-tune for your specific use case
+
+## Hardware Requirements
+
+For Llama2-7B:
+- 16GB+ RAM
+- NVIDIA GPU with 8GB+ VRAM (or CPU with patience)
+- 50GB disk space
+
+## Setting Up the Environment
+
+```bash
+python -m venv llm-env
+source llm-env/bin/activate
+pip install torch transformers fastapi uvicorn
+```
+
+## Loading the Model
+
+```python
+from transformers import AutoTokenizer, AutoModelForCausalLM
+import torch
+
+model_id = "meta-llama/Llama-2-7b-chat-hf"
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    torch_dtype=torch.float16,
+    device_map="auto"
+)
+```
+
+## Building the FastAPI Server
+
+```python
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class ChatRequest(BaseModel):
+    message: str
+    max_tokens: int = 256
+
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    inputs = tokenizer(request.message, return_tensors="pt")
+    outputs = model.generate(**inputs, max_new_tokens=request.max_tokens)
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return {"response": response}
+```
+
+## Production Deployment
+
+Use Gunicorn with Uvicorn workers:
+
+```bash
+gunicorn main:app -w 2 -k uvicorn.workers.UvicornWorker
+```
+
+## Conclusion
+
+You now have a private, scalable LLM API. Consider adding rate limiting, authentication, and monitoring for production use.

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { blogPosts } from '@/lib/blog-data'
+import { getAllMDXPosts } from '@/lib/mdx-utils'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir'
@@ -44,12 +44,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 
-  // Dynamic blog post routes
+  // Dynamic blog post routes from MDX content
+  const blogPosts = getAllMDXPosts()
   const blogRoutes = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
+    lastModified: new Date(post.frontmatter.dateISO || post.frontmatter.date),
     changeFrequency: 'monthly' as const,
-    priority: post.featured ? 0.9 : 0.7,
+    priority: 0.7 as const,
   }))
 
   return [...staticRoutes, ...blogRoutes]
