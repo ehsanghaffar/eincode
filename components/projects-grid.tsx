@@ -124,21 +124,21 @@ export function ProjectsGrid() {
   const filteredProjects = activeFilter === "all" ? projects : projects.filter((p) => p.status === activeFilter)
 
   return (
-    <section id="projects" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="projects" className="px-4 sm:px-6 py-16 sm:py-24 lg:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-10 sm:mb-14 flex flex-col gap-6 sm:gap-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-8 sm:mb-10 lg:mb-14 flex flex-col gap-4 sm:gap-6 lg:gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3 animate-fade-in-up">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Artifacts</p>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">Open Source Projects</h2>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-primary">Artifacts</p>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight">Open Source Projects</h2>
           </div>
 
-          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible sm:flex-wrap scrollbar-hide animate-fade-in-up stagger-2">
+          <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 lg:overflow-visible lg:flex-wrap scrollbar-hide animate-fade-in-up stagger-2">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
                 className={cn(
-                  "shrink-0 rounded-lg border px-5 py-2.5 font-mono text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98]",
+                  "shrink-0 rounded-lg border px-4 sm:px-5 py-2 sm:py-2.5 font-mono text-xs uppercase tracking-wider transition-all duration-300 active:scale-90 active:bg-secondary/50",
                   activeFilter === filter
                     ? "border-primary bg-primary/15 text-primary shadow-sm shadow-primary/20"
                     : "border-border text-muted-foreground hover:border-foreground/50 hover:text-foreground hover:bg-secondary/50",
@@ -150,12 +150,12 @@ export function ProjectsGrid() {
           </div>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filteredProjects.map((project, index) => (
             <article
               key={project.id}
               className={cn(
-                "group relative overflow-hidden rounded-xl border bg-card/40 p-6 sm:p-7 glass transition-all duration-400 active:scale-[0.99] hover-lift hover:border-primary/40 hover:bg-card/70 animate-fade-in-up",
+                "group relative overflow-hidden rounded-xl border bg-card/40 p-5 sm:p-6 lg:p-7 glass transition-all duration-300 active:scale-95 active:bg-secondary/70 hover-lift hover:border-primary/40 hover:bg-card/70 animate-fade-in-up",
                 "highlight" in project && project.highlight
                   ? "sm:col-span-2 lg:col-span-2 border-primary/30 bg-gradient-to-br from-primary/8 via-card/50 to-primary/8"
                   : "border-border/60",
@@ -175,25 +175,25 @@ export function ProjectsGrid() {
               {/* Status indicator */}
               <div
                 className={cn(
-                  "absolute right-5 top-5 flex items-center gap-2.5",
-                  "highlight" in project && project.highlight && "top-5",
+                  "absolute right-4 top-4 flex items-center gap-2 sm:gap-2.5",
+                  "highlight" in project && project.highlight && "top-4 sm:top-5",
                 )}
               >
                 <span
                   className={cn(
-                    "h-2.5 w-2.5 rounded-full transition-shadow duration-300",
+                    "h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full transition-shadow duration-300 flex-shrink-0",
                     project.status === "shipped" && "bg-primary shadow-sm shadow-primary/50",
                     project.status === "in-progress" && "bg-yellow-500 animate-pulse shadow-sm shadow-yellow-500/50",
                     project.status === "archived" && "bg-muted-foreground",
                   )}
                 />
-                <span className="font-mono text-xs text-muted-foreground">{project.status}</span>
+                <span className="font-mono text-[11px] sm:text-xs text-muted-foreground truncate">{project.status}</span>
               </div>
 
               <div
                 className={cn(
-                  "mb-5 font-mono text-xs text-muted-foreground",
-                  "highlight" in project && project.highlight && "mt-10",
+                  "mb-4 sm:mb-5 font-mono text-xs text-muted-foreground",
+                  "highlight" in project && project.highlight && "mt-8 sm:mt-10",
                 )}
               >
                 {project.year}
@@ -201,8 +201,8 @@ export function ProjectsGrid() {
 
               <h3
                 className={cn(
-                  "mb-3 font-bold tracking-tight transition-all duration-300 group-hover:text-gradient",
-                  "highlight" in project && project.highlight ? "text-xl sm:text-2xl" : "text-lg sm:text-xl",
+                  "mb-2 sm:mb-3 font-bold tracking-tight transition-all duration-300 group-hover:text-gradient",
+                  "highlight" in project && project.highlight ? "text-lg sm:text-xl lg:text-2xl" : "text-base sm:text-lg",
                 )}
               >
                 {project.title}
@@ -210,44 +210,44 @@ export function ProjectsGrid() {
 
               <p
                 className={cn(
-                  "mb-5 text-sm leading-relaxed text-muted-foreground",
+                  "mb-4 sm:mb-5 text-xs sm:text-sm leading-relaxed text-muted-foreground",
                   "highlight" in project && project.highlight ? "line-clamp-3" : "line-clamp-2",
                 )}
               >
                 {project.description}
               </p>
 
-              <div className="mb-5 flex items-center gap-5 font-mono text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5 transition-colors group-hover:text-yellow-500">
-                  <Star className="h-3.5 w-3.5" />
-                  {project.stars}
+              <div className="mb-4 sm:mb-5 flex items-center gap-4 sm:gap-5 font-mono text-xs text-muted-foreground">
+                <span className="flex items-center gap-1 sm:gap-1.5 transition-colors group-hover:text-yellow-500">
+                  <Star className="h-3 sm:h-3.5 w-3 sm:w-3.5 flex-shrink-0" />
+                  <span className="text-[11px] sm:text-xs">{project.stars}</span>
                 </span>
-                <span className="flex items-center gap-1.5 transition-colors group-hover:text-foreground">
-                  <GitFork className="h-3.5 w-3.5" />
-                  {project.forks}
+                <span className="flex items-center gap-1 sm:gap-1.5 transition-colors group-hover:text-foreground">
+                  <GitFork className="h-3 sm:h-3.5 w-3 sm:w-3.5 flex-shrink-0" />
+                  <span className="text-[11px] sm:text-xs">{project.forks}</span>
                 </span>
               </div>
 
-              <div className="mb-5 flex flex-wrap gap-2">
+              <div className="mb-4 sm:mb-5 flex flex-wrap gap-1.5 sm:gap-2">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-md border border-border/80 bg-secondary/60 px-2.5 py-1 font-mono text-xs text-secondary-foreground transition-colors hover:border-primary/50 hover:bg-primary/10"
+                    className="rounded-md border border-border/80 bg-secondary/60 px-2 sm:px-2.5 py-0.5 sm:py-1 font-mono text-[10px] sm:text-xs text-secondary-foreground transition-colors active:scale-90 hover:border-primary/50 hover:bg-primary/10"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 font-mono text-xs text-muted-foreground hover:text-primary transition-all duration-300 group/link"
+                  className="flex items-center gap-2 font-mono text-[11px] sm:text-xs text-muted-foreground transition-all duration-300 active:scale-90 hover:text-primary group/link"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Github className="h-4 w-4 transition-transform group-hover/link:scale-110" />
+                  <Github className="h-3.5 sm:h-4 w-3.5 sm:w-4 transition-transform group-hover/link:scale-110 flex-shrink-0" />
                   <span className="underline-animate">source</span>
                 </a>
                 {project.homepage && (
@@ -255,10 +255,10 @@ export function ProjectsGrid() {
                     href={project.homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 font-mono text-xs text-primary hover:text-foreground transition-all duration-300 group/link"
+                    className="flex items-center gap-2 font-mono text-[11px] sm:text-xs text-primary transition-all duration-300 active:scale-90 hover:text-foreground group/link"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <ExternalLink className="h-4 w-4 transition-transform group-hover/link:scale-110 group-hover/link:rotate-12" />
+                    <ExternalLink className="h-3.5 sm:h-4 w-3.5 sm:w-4 transition-transform group-hover/link:scale-110 group-hover/link:rotate-12 flex-shrink-0" />
                     <span className="underline-animate">live</span>
                   </a>
                 )}
