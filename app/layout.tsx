@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "EINCODE",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-images/eindev.png",
         width: 1200,
         height: 630,
         alt: "EINCODE — Ehsan Ghaffar's Digital Laboratory",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "EINCODE — Ehsan Ghaffar's Digital Laboratory",
     description: "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts.",
     creator: "@ehsanghaffar",
-    images: ["/og-image.png"],
+    images: ["/og-images/eindev.png"],
   },
   robots: {
     index: true,

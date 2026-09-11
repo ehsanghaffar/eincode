@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: `${baseUrl}/og-image-projects.png`,
+        url: `${baseUrl}/eindev-project.png`,
         width: 1200,
         height: 630,
         alt: "EINCODE Projects",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Projects — EINCODE",
     description: "Explore open source projects, experiments, and tools.",
-    images: [`${baseUrl}/og-image-projects.png`],
+    images: [`${baseUrl}/eindev-project.png`],
   },
   alternates: {
     canonical: `${baseUrl}/projects`,

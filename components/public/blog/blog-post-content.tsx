@@ -1,69 +1,75 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef } from "react"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { ArrowLeft, Calendar, Clock, Bookmark, Twitter, Linkedin, Link2, ChevronUp, ListTree } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import type { BlogPost } from "@/types/mdx"
+import { useEffect, useState, useRef } from "react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { ArrowLeft, Calendar, Clock, Bookmark, Twitter, Linkedin, Link2, ChevronUp, ListTree } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import type { BlogPost } from "@/types/mdx";
 
 interface BlogPostContentProps {
-  post: BlogPost
-  relatedPosts?: BlogPost[]
-  contentNode?: React.ReactNode
+  post: BlogPost;
+  relatedPosts?: BlogPost[];
+  contentNode?: React.ReactNode;
 }
 
-type TocItem = { level: 2 | 3; text: string; id: string }
+type TocItem = { level: 2 | 3; text: string; id: string };
 
 export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPostContentProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const [showScrollTop, setShowScrollTop] = useState(false)
-  const [copied, setCopied] = useState(false)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const [toc, setToc] = useState<TocItem[]>([])
+  const [isVisible, setIsVisible] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [toc, setToc] = useState<TocItem[]>([]);
 
   useEffect(() => {
-    setIsVisible(true)
+    setIsVisible(true);
 
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 500)
-    }
+      setShowScrollTop(window.scrollY > 500);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     // Build TOC from rendered headings (prefer ids set by rehype-slug)
-    const el = contentRef.current
-    if (!el) return
-    const headings = Array.from(el.querySelectorAll<HTMLElement>("h2, h3"))
+    const el = contentRef.current;
+    if (!el) return;
+    const headings = Array.from(el.querySelectorAll<HTMLElement>("h2, h3"));
     const items: TocItem[] = headings.map((h) => ({
       level: (h.tagName.toLowerCase() === "h2" ? 2 : 3) as 2 | 3,
       text: h.textContent ?? "",
-      id: h.id || (h.textContent ?? "").toLowerCase().replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-"),
-    }))
-    setToc(items)
-  }, [post.slug])
+      id:
+        h.id ||
+        (h.textContent ?? "")
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, "")
+          .trim()
+          .replace(/\s+/g, "-"),
+    }));
+    setToc(items);
+  }, [post.slug]);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const categoryGradient: Record<string, string> = {
     systems: "from-blue-500/20 to-cyan-500/20",
     ai: "from-purple-500/20 to-pink-500/20",
     frontend: "from-teal-500/20 to-emerald-500/20",
     default: "from-primary/10 to-accent/10",
-  }
-  const gradient = categoryGradient[post.frontmatter.category?.toLowerCase()] || categoryGradient.default
+  };
+  const gradient = categoryGradient[post.frontmatter.category?.toLowerCase()] || categoryGradient.default;
 
   return (
     <>
@@ -101,7 +107,9 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
             )}
             style={{ animationDelay: "150ms" }}
           >
-            <span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text">{post.frontmatter.title}</span>
+            <span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text">
+              {post.frontmatter.title}
+            </span>
           </h1>
 
           {/* Excerpt */}
@@ -117,16 +125,18 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
 
           {/* Author & Meta Row */}
           <div
-            className={cn(
-              "flex flex-wrap items-center justify-between gap-6 opacity-0",
-              isVisible && "animate-fade-in-up",
-            )}
+            className={cn("flex flex-wrap items-center justify-between gap-6 opacity-0", isVisible && "animate-fade-in-up")}
             style={{ animationDelay: "250ms" }}
           >
             <div className="flex items-center gap-4">
               <Avatar className="h-12 w-12 border-2 border-border">
-                <AvatarImage src={"/developer-portrait.png"} alt={post.frontmatter.author ?? "Author"} />
-                <AvatarFallback className="bg-secondary font-mono">{(post.frontmatter.author ?? "").split(" ").map((n) => n[0]).join("")}</AvatarFallback>
+                <AvatarImage src={"/ein.jpg"} alt={post.frontmatter.author ?? "Author"} />
+                <AvatarFallback className="bg-secondary font-mono">
+                  {(post.frontmatter.author ?? "")
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")}
+                </AvatarFallback>
               </Avatar>
               <div>
                 <p className="font-medium">{post.frontmatter.author ?? ""}</p>
@@ -191,8 +201,19 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
             </article>
 
             {/* Sticky Sidebar: TOC + Share */}
-            <aside className={cn("hidden lg:block opacity-0", isVisible && "animate-fade-in-up")} style={{ animationDelay: "400ms" }}>
+            <aside
+              className={cn("hidden lg:block opacity-0", isVisible && "animate-fade-in-up")}
+              style={{ animationDelay: "400ms" }}
+            >
               <div className="sticky top-32 flex flex-col gap-4">
+                {/* og-image */}
+                <div className="mt-6">
+                  <img
+                    src={post.frontmatter.image || "/og-images/eindev-blog.png"}
+                    alt={post.frontmatter.title}
+                    className="w-full rounded-lg border border-border/50"
+                  />
+                </div>
                 {/* Table of Contents */}
                 {toc.length > 0 && (
                   <div className="rounded-xl border border-border/50 bg-card/40 glass p-4">
@@ -219,54 +240,56 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
 
                 {/* Share */}
                 <span className="font-mono text-xs text-muted-foreground mt-1 text-center">share</span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
-                  onClick={() =>
-                    window.open(
-                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.slug)}`,
-                      "_blank",
-                    )
-                  }
-                >
-                  <Twitter className="h-4 w-4" />
-                  <span className="sr-only">Share on Twitter</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
-                  onClick={() =>
-                    window.open(
-                      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
-                      "_blank",
-                    )
-                  }
-                >
-                  <Linkedin className="h-4 w-4" />
-                  <span className="sr-only">Share on LinkedIn</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className={cn(
-                    "h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10",
-                    copied && "border-primary/50 bg-primary/10",
-                  )}
-                  onClick={handleCopyLink}
-                >
-                  <Link2 className="h-4 w-4" />
-                  <span className="sr-only">Copy link</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
-                >
-                  <Bookmark className="h-4 w-4" />
-                  <span className="sr-only">Bookmark</span>
-                </Button>
+                <div className="flex items-center justify-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
+                    onClick={() =>
+                      window.open(
+                        `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(post.slug)}`,
+                        "_blank",
+                      )
+                    }
+                  >
+                    <Twitter className="h-4 w-4" />
+                    <span className="sr-only">Share on Twitter</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
+                    onClick={() =>
+                      window.open(
+                        `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`,
+                        "_blank",
+                      )
+                    }
+                  >
+                    <Linkedin className="h-4 w-4" />
+                    <span className="sr-only">Share on LinkedIn</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn(
+                      "h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10",
+                      copied && "border-primary/50 bg-primary/10",
+                    )}
+                    onClick={handleCopyLink}
+                  >
+                    <Link2 className="h-4 w-4" />
+                    <span className="sr-only">Copy link</span>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-10 w-10 rounded-lg border-border/50 hover:border-primary/50 hover:bg-primary/10 bg-transparent"
+                  >
+                    <Bookmark className="h-4 w-4" />
+                    <span className="sr-only">Bookmark</span>
+                  </Button>
+                </div>
               </div>
             </aside>
           </div>
@@ -282,7 +305,11 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
                 </div>
                 <nav className="flex flex-wrap gap-3">
                   {toc.map((item) => (
-                    <a key={item.id} href={`#${item.id}`} className="rounded-md border border-border/50 px-2 py-1 text-xs text-muted-foreground hover:text-foreground">
+                    <a
+                      key={item.id}
+                      href={`#${item.id}`}
+                      className="rounded-md border border-border/50 px-2 py-1 text-xs text-muted-foreground hover:text-foreground"
+                    >
                       {item.text}
                     </a>
                   ))}
@@ -398,7 +425,7 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
         <ChevronUp className="h-5 w-5" />
       </button>
     </>
-  )
+  );
 }
 
 // content is now rendered via server-side MDX; manual parser removed

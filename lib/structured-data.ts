@@ -6,7 +6,7 @@ export function generateBlogPostStructuredData(post: BlogPostFrontmatter, url: s
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
-    image: `${url}/og-images/${post.image}`,
+    image: `${post.image} || "https://eindev.ir/og-images/eindev-blog.png"`,
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.date).toISOString(),
     author: {
@@ -58,7 +58,7 @@ export function generatePersonStructuredData() {
     '@type': 'Person',
     name: 'Ehsan Ghaffar',
     url: 'https://eindev.ir',
-    image: 'https://eindev.ir/developer-portrait.png',
+    image: 'https://eindev.ir/ein.jpg',
     sameAs: [
       'https://github.com/ehsanghaffar',
       'https://twitter.com/ehsanghaffar',

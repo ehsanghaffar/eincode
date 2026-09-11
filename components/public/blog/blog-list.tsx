@@ -75,7 +75,7 @@ export function BlogList({ posts }: BlogListProps) {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <Avatar className="h-9 w-9 border border-border">
-                  <AvatarImage src={"/developer-portrait.png"} alt={post.frontmatter.author ?? "Author"} />
+                  <AvatarImage src={"/ein.jpg"} alt={post.frontmatter.author ?? "Author"} />
                   <AvatarFallback className="bg-secondary text-xs font-mono">
                     {(post.frontmatter.author ?? "").split(" ").map((n) => n[0]).join("")}
                   </AvatarFallback>
