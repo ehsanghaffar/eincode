@@ -1,27 +1,27 @@
-import type { BlogPost } from './blog-data'
+import { BlogPostFrontmatter } from "@/types/mdx";
 
-export function generateBlogPostStructuredData(post: BlogPost, url: string) {
+export function generateBlogPostStructuredData(post: BlogPostFrontmatter, url: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: post.title,
     description: post.excerpt,
-    image: `${url}/og-images/${post.slug}.png`,
+    image: `${url}/og-images/${post.image}`,
     datePublished: new Date(post.date).toISOString(),
     dateModified: new Date(post.date).toISOString(),
     author: {
       '@type': 'Person',
-      name: post.author.name,
+      name: post.author || 'Ein',
       url: 'https://github.com/ehsanghaffar',
     },
     publisher: {
       '@type': 'Person',
-      name: 'Ehsan Ghaffar',
+      name: 'Ein',
       url: 'https://eindev.ir',
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${url}/blog/${post.slug}`,
+      '@id': `${url}/blog/${post.title.toLowerCase().replace(/\s+/g, '-')}`,
     },
     articleSection: post.category,
     keywords: post.tags.join(', '),
