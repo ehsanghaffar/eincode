@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "Technical articles, experiments, and insights from the digital laboratory. Exploring systems programming, web development, AI, and more.",
   openGraph: {
     title: "Blog — EINCODE",
+    siteName: "Eindev",
     description: "Technical articles, experiments, and insights from the digital laboratory.",
     url: `${baseUrl}/blog`,
     type: "website",
