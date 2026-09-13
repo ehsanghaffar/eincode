@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
   const postUrl = `${baseUrl}/blog/${post.slug}`;
-  const ogImageUrl = `${post.frontmatter.image}` || "https://eindev.ir/eindev-blog.png";
+  const ogImageUrl = `${post.frontmatter.image}` || "https://eindev.ir/og-images/eindev-blog.png";
 
   return {
     title: post.frontmatter.title,

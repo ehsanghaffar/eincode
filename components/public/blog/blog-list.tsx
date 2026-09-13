@@ -1,42 +1,42 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { cn } from "@/lib/utils"
-import { ArrowRight, Clock, Calendar } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Link from "next/link"
-import type { BlogPost } from "@/types/mdx"
+import { useState, useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
+import { ArrowRight, Clock, Calendar } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
+import type { BlogPost } from "@/types/mdx";
 
 interface BlogListProps {
-  posts: BlogPost[]
+  posts: BlogPost[];
 }
 
 export function BlogList({ posts }: BlogListProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
+          setIsVisible(true);
         }
       },
       { threshold: 0.1 },
-    )
+    );
 
     if (sectionRef.current) {
-      observer.observe(sectionRef.current)
+      observer.observe(sectionRef.current);
     }
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div ref={sectionRef} className="space-y-6">
       {posts.map((post, index) => (
         <article
-          key={post.slug}
+          key={index}
           className={cn(
             "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.995] hover-lift opacity-0",
             isVisible && "animate-fade-in-up",
@@ -75,14 +75,24 @@ export function BlogList({ posts }: BlogListProps) {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <Avatar className="h-9 w-9 border border-border">
-                  <AvatarImage src={"/ein.jpg"} alt={post.frontmatter.author ?? "Author"} />
+                  <AvatarImage
+                    src={"/ein.jpg"}
+                    alt={post.frontmatter.author ?? "Author"}
+                  />
                   <AvatarFallback className="bg-secondary text-xs font-mono">
-                    {(post.frontmatter.author ?? "").split(" ").map((n) => n[0]).join("")}
+                    {(post.frontmatter.author ?? "")
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">{post.frontmatter.author ?? ""}</span>
-                  <span className="text-xs text-muted-foreground">{/* role not available in MDX frontmatter */}</span>
+                  <span className="text-sm font-medium">
+                    {post.frontmatter.author ?? ""}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {/* role not available in MDX frontmatter */}
+                  </span>
                 </div>
               </div>
 
@@ -93,9 +103,9 @@ export function BlogList({ posts }: BlogListProps) {
             </div>
 
             <div className="mt-4 flex flex-wrap gap-2">
-              {post.frontmatter.tags.map((tag) => (
+              {post.frontmatter.tags.map((tag, index) => (
                 <span
-                  key={tag}
+                  key={index}
                   className="rounded-md bg-secondary/40 px-2 py-1 font-mono text-[10px] text-muted-foreground transition-colors group-hover:bg-secondary/60"
                 >
                   #{tag}
@@ -108,5 +118,5 @@ export function BlogList({ posts }: BlogListProps) {
         </article>
       ))}
     </div>
-  )
+  );
 }

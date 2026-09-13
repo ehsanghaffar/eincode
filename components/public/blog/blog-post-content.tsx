@@ -161,9 +161,9 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
             className={cn("flex flex-wrap gap-2 mt-6 opacity-0", isVisible && "animate-fade-in-up")}
             style={{ animationDelay: "300ms" }}
           >
-            {post.frontmatter.tags.map((tag) => (
+            {post.frontmatter.tags.map((tag, index) => (
               <span
-                key={tag}
+                key={index}
                 className="rounded-md bg-secondary/60 border border-border/50 px-3 py-1 font-mono text-xs text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors cursor-pointer"
               >
                 #{tag}
@@ -222,9 +222,9 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
                       <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">On this page</span>
                     </div>
                     <nav className="space-y-1">
-                      {toc.map((item) => (
+                      {toc.map((item, index) => (
                         <a
-                          key={item.id}
+                          key={index}
                           href={`#${item.id}`}
                           className={cn(
                             "block text-sm text-muted-foreground hover:text-foreground transition-colors",
@@ -304,9 +304,9 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
                   <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">On this page</span>
                 </div>
                 <nav className="flex flex-wrap gap-3">
-                  {toc.map((item) => (
+                  {toc.map((item, index) => (
                     <a
-                      key={item.id}
+                      key={index}
                       href={`#${item.id}`}
                       className="rounded-md border border-border/50 px-2 py-1 text-xs text-muted-foreground hover:text-foreground"
                     >
@@ -376,7 +376,7 @@ export function BlogPostContent({ post, relatedPosts = [], contentNode }: BlogPo
                 [RELATED_POSTS]
               </span>
               <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-                Continue <span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text">Reading</span>
+                Continue <span className="bg-linear-to-l from-primary/50 to-accent text-transparent bg-clip-text">Reading</span>
               </h2>
             </div>
 
