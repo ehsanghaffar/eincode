@@ -99,11 +99,11 @@ Preview the hero's typewriter, projects grid, lab notes, and workbench directly 
 
 | Tech | Details |
 |---|---|
-| **Radix UI** | 16 primitives — `accordion`, `dialog`, `popover`, `tabs`, `toast`, etc. — `package.json:24` |
+| **Radix UI** | Unified `radix-ui` package used by the shadcn primitives in `components/ui/` |
 | **shadcn/ui** | `components.json` + `components/ui/` + `lib/utils.ts:1` (`cn` = `clsx` + `tailwind-merge`) |
 | **Lucide React** | `0.454.0` icons throughout |
 | **next-themes** | `0.4.6` class-based dark mode |
-| **tw-animate-css** | `1.3.3` animation utilities |
+| **tw-animate-css** | `1.4.0` animation utilities |
 
 ### Content & Markdown
 
@@ -123,7 +123,7 @@ Preview the hero's typewriter, projects grid, lab notes, and workbench directly 
 | **pnpm** | `>=9` recommended (lockfile `pnpm-lock.yaml`) |
 | **ESLint** | `eslint .` — `package.json:18` |
 | **Vercel Analytics** | `latest` |
-| `zod` `3.25`, `react-hook-form` `7.60`, `recharts` `2.15`, `date-fns` `4.1`, `embla-carousel`... | Extra UI deps pre-wired |
+| **Zod** | `4.6.4` schema validation |
 
 ---
 
